@@ -1,117 +1,38 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { getLatLonFromLocation, weatherMap } from "@/utils/locationUtils";
+import React, { useEffect } from "react";
+import { getLatLonFromLocation } from "@/utils/locationUtils";
 import ThreeDayForecast from "@/components/ThreeDayForecast/ThreeDayForecast";
 import LocationSwitcher from "@/components/LocationSwitcher/LocationSwitcher";
-import Footer from "@/components/Footer/Footer";
 import './Overview.css';
 import WeatherCard from "@/components/WeatherCard/WeatherCard";
+import { useWeather } from "@/context/WeatherContext";
 
 export default function Overview() {
-    const [temperature, setTemperature] = useState<number | null>(null);
-    const [temperatureC, setTemperatureC] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [iconUrl, setIconUrl] = useState<string | null>(null);
-    const [condition, setCondition] = useState("");
-    const [windSpeed, setWindSpeed] = useState<number | null>(null);
-    const [feelsLike, setFeelsLike] = useState<number | null>(null);
-    const [precipChance, setPrecipChance] = useState<number | null>(null);
-    const [latitude, setLatitude] = useState(44.959621);
-    const [longitude, setLongitude] = useState(-93.845337);
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [zip, setZip] = useState("");
-    const [locError, setLocError] = useState("");
-    const [displayLocation, setDisplayLocation] = useState("");
-    const [isFetchingLocation, setIsFetchingLocation] = useState(false);
-    const [usedMyLocation, setUsedMyLocation] = useState(false);
-    const [showLocationForm, setShowLocationForm] = useState(false);
-    const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-    const [pendingLocation, setPendingLocation] = useState("");
-    const [lastLat, setLastLat] = useState(latitude);
-    const [lastLon, setLastLon] = useState(longitude);
+    const {
+        temperature,
+        loading,
+        latitude,
+        longitude,
+        city,
+        state,
+        zip,
+        locError,
+        displayLocation,
+        isFetchingLocation,
+        showLocationForm,
+        setLatitude,
+        setLongitude,
+        setCity,
+        setState,
+        setZip,
+        setShowLocationForm,
+        refreshWeatherData
+    } = useWeather();
 
     useEffect(() => {
-        fetchWeatherData();
+        refreshWeatherData();
         // eslint-disable-next-line
     }, [latitude, longitude]);
-
-    function fetchWeatherData() {
-        setLoading(true);
-        fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation_probability&temperature_unit=fahrenheit&timezone=America%2FChicago`
-        )
-            .then((response) => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then((data) => {
-                const tempF = data.current?.temperature_2m;
-                setTemperature(tempF);
-                if (typeof tempF === "number") {
-                    setTemperatureC(((tempF - 32) * 5 / 9).toFixed(1));
-                } else {
-                    setTemperatureC(null);
-                }
-                setWindSpeed(data.current?.wind_speed_10m ?? null);
-                setFeelsLike(data.current?.apparent_temperature ?? null);
-                setPrecipChance(data.current?.precipitation_probability ?? null);
-                const weatherCode = data.current?.weather_code;
-                const weather = weatherMap[weatherCode] || { icon: "❓", text: "Unknown" };
-                setIconUrl(weather.icon);
-                setCondition(weather.text);
-                setLastUpdated(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setLoading(false);
-            });
-    }
-
-    function refreshWeatherData() {
-        fetchWeatherData();
-    }
-
-    useEffect(() => {
-        if (zip) {
-            setPendingLocation(zip);
-        } else if (city && state) {
-            setPendingLocation(`${city}, ${state}`);
-        } else {
-            setPendingLocation("");
-        }
-    }, [zip, city, state]);
-
-    useEffect(() => {
-        if (!loading && !isFetchingLocation && (latitude !== lastLat || longitude !== lastLon)) {
-            if (usedMyLocation) {
-                setDisplayLocation("Your Location");
-            } else {
-                setDisplayLocation(pendingLocation);
-            }
-            setLastLat(latitude);
-            setLastLon(longitude);
-            setShowLocationForm(false);
-        }
-    }, [loading, isFetchingLocation, latitude, longitude, pendingLocation, usedMyLocation, lastLat, lastLon]);
-
-    useEffect(() => {
-        if (typeof window !== "undefined" && navigator.geolocation) {
-            setIsFetchingLocation(true);
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    setLatitude(pos.coords.latitude);
-                    setLongitude(pos.coords.longitude);
-                    setIsFetchingLocation(false);
-                },
-                () => {
-                    setIsFetchingLocation(false);
-                }
-            );
-        }
-    }, []);
 
     function getBackgroundGradient(temp: number | null) {
         if (temp === null || isNaN(temp)) {
@@ -155,7 +76,7 @@ export default function Overview() {
                     <button
                         type="button"
                         className="location-toggle-btn"
-                        onClick={() => setShowLocationForm((v) => !v)}
+                        onClick={() => setShowLocationForm(!showLocationForm)}
                         aria-expanded={showLocationForm}
                         aria-controls="location-switcher-form"
                         style={{ position: "relative", zIndex: 11 }}
@@ -180,9 +101,9 @@ export default function Overview() {
                                 setCity={setCity}
                                 setState={setState}
                                 setZip={setZip}
-                                setLocError={setLocError}
-                                setIsFetchingLocation={setIsFetchingLocation}
-                                setUsedMyLocation={setUsedMyLocation}
+                                setLocError={() => {}}
+                                setIsFetchingLocation={() => {}}
+                                setUsedMyLocation={() => {}}
                                 getLatLonFromLocation={getLatLonFromLocation}
                                 setLatitude={setLatitude}
                                 setLongitude={setLongitude}
@@ -204,14 +125,6 @@ export default function Overview() {
                     <div className="weather-cards-row">
                         <WeatherCard
                             title="US Units"
-                            iconUrl={iconUrl}
-                            condition={condition}
-                            temperature={temperature}
-                            feelsLike={feelsLike}
-                            wind={windSpeed}
-                            precipitation={precipChance}
-                            loading={loading || isFetchingLocation}
-                            error={error}
                             unitSymbol="°F"
                             windLabel="Wind"
                             windUnit="mph"
@@ -220,14 +133,6 @@ export default function Overview() {
                         />
                         <WeatherCard
                             title="Metric Units"
-                            iconUrl={iconUrl}
-                            condition={condition}
-                            temperature={temperatureC}
-                            feelsLike={feelsLike !== null ? ((feelsLike - 32) * 5 / 9).toFixed(1) : null}
-                            wind={windSpeed !== null ? (windSpeed * 0.868976).toFixed(1) : null}
-                            precipitation={precipChance}
-                            loading={loading || isFetchingLocation}
-                            error={error}
                             unitSymbol="°C"
                             windLabel="Wind"
                             windUnit="knots"
@@ -238,20 +143,6 @@ export default function Overview() {
                     <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />
                 </div>
             </div>
-            <section className="last-updated-row">
-        <span className="last-updated-label">
-          Last updated: {lastUpdated ? lastUpdated : "—"}
-        </span>
-                <button
-                    type="button"
-                    className="location_switcher__btn location-switcher__refresh-btn"
-                    onClick={refreshWeatherData}
-                    aria-label="Refresh weather data"
-                >
-                    Refresh
-                </button>
-            </section>
-            <Footer />
         </div>
     );
 }

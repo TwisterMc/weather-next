@@ -1,39 +1,43 @@
 import React from 'react';
 import './WeatherCardStyles.css';
+import { useWeather } from '@/context/WeatherContext';
 
-export interface WeatherCardProps {
+export default function WeatherCard({
+  title,
+  unitSymbol,
+  windLabel,
+  windUnit,
+  precipitationLabel,
+  reserveSpace,
+}: {
   title: string;
-  iconUrl: string | null;
-  condition: string;
-  temperature: number | string | null;
-  feelsLike: number | string | null;
-  wind: number | string | null;
-  precipitation: number | string | null;
-  loading: boolean;
-  error: string | null;
   unitSymbol: string;
   windLabel: string;
   windUnit: string;
   precipitationLabel: string;
   reserveSpace?: boolean;
-}
+}) {
+  const {
+    iconUrl,
+    condition,
+    temperature,
+    temperatureC,
+    feelsLike,
+    windSpeed,
+    precipChance,
+    loading,
+    error
+  } = useWeather();
 
-export default function WeatherCard({
-  title,
-  iconUrl,
-  condition,
-  temperature,
-  feelsLike,
-  wind,
-  precipitation,
-  loading,
-  error,
-  unitSymbol,
-  windLabel,
-  windUnit,
-  precipitationLabel,
-  reserveSpace = false
-}: WeatherCardProps) {
+  // Determine which values to display based on unitSymbol
+  const displayTemp = unitSymbol === '°C' ? temperatureC : temperature;
+  const displayFeelsLike = unitSymbol === '°C'
+    ? (feelsLike !== null && typeof feelsLike === 'number' ? ((feelsLike - 32) * 5 / 9).toFixed(1) : null)
+    : feelsLike;
+  const displayWind = unitSymbol === '°C' && windSpeed !== null
+    ? (typeof windSpeed === 'number' ? (windSpeed * 0.868976).toFixed(1) : windSpeed)
+    : windSpeed;
+
   return (
     <header className="weather-card">
       <div className="weather-card__current-label">Current</div>
@@ -49,17 +53,17 @@ export default function WeatherCard({
         </div>
       )}
       {!loading && error && <p className="weather-card__error">Error: {error}</p>}
-      {!loading && temperature !== null && !error && (
+      {!loading && displayTemp !== null && !error && (
         <>
           <div className="weather-card__icon-block">
             <span className="weather-card__icon">{iconUrl}</span>
             <span className="weather-card__condition">{condition}</span>
           </div>
           <div className="weather-card__details">
-            <span className="weather-card__temp">{temperature}{unitSymbol}</span>
-            <span><strong>Feels Like:</strong> <span className="weather-card__highlight">{feelsLike !== null ? feelsLike + unitSymbol : 'N/A'}</span></span>
-            <span><strong>{windLabel}:</strong> <span className="weather-card__highlight">{wind !== null ? wind + ' ' + windUnit : 'N/A'}</span></span>
-            <span><strong>{precipitationLabel}:</strong> <span className="weather-card__highlight">{precipitation !== null ? precipitation + '%' : 'N/A'}</span></span>
+            <span className="weather-card__temp">{displayTemp}{unitSymbol}</span>
+            <span><strong>Feels Like:</strong> <span className="weather-card__highlight">{displayFeelsLike !== null ? displayFeelsLike + unitSymbol : 'N/A'}</span></span>
+            <span><strong>{windLabel}:</strong> <span className="weather-card__highlight">{displayWind !== null ? displayWind + ' ' + windUnit : 'N/A'}</span></span>
+            <span><strong>{precipitationLabel}:</strong> <span className="weather-card__highlight">{precipChance !== null ? precipChance + '%' : 'N/A'}</span></span>
           </div>
         </>
       )}
