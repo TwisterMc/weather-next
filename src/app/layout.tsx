@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "../components/Footer/Footer"; 
+import Footer from "../components/Footer/Footer";
 import { WeatherProvider } from "@/context/WeatherContext";
 
 export const metadata: Metadata = {
@@ -21,10 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <WeatherProvider>
-          {children}
-          <Footer />
-        </WeatherProvider>
+        <div className="app-root">
+          <div className="app-container">
+            <WeatherProvider>
+              {children}
+              <Footer />
+            </WeatherProvider>
+          </div></div>
       </body>
     </html>
   );

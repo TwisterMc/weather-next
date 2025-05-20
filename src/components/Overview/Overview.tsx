@@ -70,78 +70,76 @@ export default function Overview() {
     }, [displayLocation]);
 
     return (
-        <div className="app-root">
-            <div className="app-container">
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative", zIndex: 10 }}>
-                    <button
-                        type="button"
-                        className="location-toggle-btn"
-                        onClick={() => setShowLocationForm(!showLocationForm)}
-                        aria-expanded={showLocationForm}
-                        aria-controls="location-switcher-form"
-                        style={{ position: "relative", zIndex: 11 }}
-                    >
-                        {showLocationForm ? "Hide Location Switcher" : "Change Location"}
-                    </button>
-                    {showLocationForm && (
-                        <div className="location-switcher-flydown">
-                            <button
-                                type="button"
-                                className="location-switcher-flydown__close-btn"
-                                aria-label="Close Location Switcher"
-                                onClick={() => setShowLocationForm(false)}
-                            >
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8" stroke="#1a5fa0" strokeWidth="2" strokeLinecap="round"/></svg>
-                            </button>
-                            <LocationSwitcher
-                                city={city}
-                                state={state}
-                                zip={zip}
-                                locError={locError}
-                                setCity={setCity}
-                                setState={setState}
-                                setZip={setZip}
-                                setLocError={() => {}}
-                                setIsFetchingLocation={() => {}}
-                                setUsedMyLocation={() => {}}
-                                getLatLonFromLocation={getLatLonFromLocation}
-                                setLatitude={setLatitude}
-                                setLongitude={setLongitude}
-                                show={true}
-                                onClose={() => setShowLocationForm(false)}
-                            />
-                        </div>
-                    )}
-                </div>
-                <div style={{ textAlign: "center", marginBottom: 32 }}>
-                    <h1 className="app-title">
-                        The Weather For {displayLocation || "Your Location"}
-                    </h1>
-                </div>
-                <div
-                    className="weather-gradient-card"
-                    style={{ background: backgroundGradient }}
+        <div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative", zIndex: 10 }}>
+                <button
+                    type="button"
+                    className="location-toggle-btn"
+                    onClick={() => setShowLocationForm(!showLocationForm)}
+                    aria-expanded={showLocationForm}
+                    aria-controls="location-switcher-form"
+                    style={{ position: "relative", zIndex: 11 }}
                 >
-                    <div className="weather-cards-row">
-                        <WeatherCard
-                            title="US Units"
-                            unitSymbol="°F"
-                            windLabel="Wind"
-                            windUnit="mph"
-                            precipitationLabel="Precipitation"
-                            reserveSpace={true}
-                        />
-                        <WeatherCard
-                            title="Metric Units"
-                            unitSymbol="°C"
-                            windLabel="Wind"
-                            windUnit="knots"
-                            precipitationLabel="Precipitation"
-                            reserveSpace={true}
+                    {showLocationForm ? "Hide Location Switcher" : "Change Location"}
+                </button>
+                {showLocationForm && (
+                    <div className="location-switcher-flydown">
+                        <button
+                            type="button"
+                            className="location-switcher-flydown__close-btn"
+                            aria-label="Close Location Switcher"
+                            onClick={() => setShowLocationForm(false)}
+                        >
+                            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8" stroke="#1a5fa0" strokeWidth="2" strokeLinecap="round" /></svg>
+                        </button>
+                        <LocationSwitcher
+                            city={city}
+                            state={state}
+                            zip={zip}
+                            locError={locError}
+                            setCity={setCity}
+                            setState={setState}
+                            setZip={setZip}
+                            setLocError={() => { }}
+                            setIsFetchingLocation={() => { }}
+                            setUsedMyLocation={() => { }}
+                            getLatLonFromLocation={getLatLonFromLocation}
+                            setLatitude={setLatitude}
+                            setLongitude={setLongitude}
+                            show={true}
+                            onClose={() => setShowLocationForm(false)}
                         />
                     </div>
-                    <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />
+                )}
+            </div>
+            <div style={{ textAlign: "center", marginBottom: 32 }}>
+                <h1 className="app-title">
+                    The Weather For {displayLocation || "Your Location"}
+                </h1>
+            </div>
+            <div
+                className="weather-gradient-card"
+                style={{ background: backgroundGradient }}
+            >
+                <div className="weather-cards-row">
+                    <WeatherCard
+                        title="US Units"
+                        unitSymbol="°F"
+                        windLabel="Wind"
+                        windUnit="mph"
+                        precipitationLabel="Precipitation"
+                        reserveSpace={true}
+                    />
+                    <WeatherCard
+                        title="Metric Units"
+                        unitSymbol="°C"
+                        windLabel="Wind"
+                        windUnit="knots"
+                        precipitationLabel="Precipitation"
+                        reserveSpace={true}
+                    />
                 </div>
+                <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />
             </div>
         </div>
     );
