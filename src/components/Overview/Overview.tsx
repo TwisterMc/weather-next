@@ -110,9 +110,9 @@ export default function Overview() {
                             setCity={setCity}
                             setState={setState}
                             setZip={setZip}
-                            setLocError={() => {}}
-                            setIsFetchingLocation={() => {}}
-                            setUsedMyLocation={() => {}}
+                            setLocError={() => { }}
+                            setIsFetchingLocation={() => { }}
+                            setUsedMyLocation={() => { }}
                             getLatLonFromLocation={getLatLonFromLocation}
                             setLatitude={setLatitude}
                             setLongitude={setLongitude}
