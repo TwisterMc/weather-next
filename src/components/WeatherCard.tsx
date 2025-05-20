@@ -15,6 +15,7 @@ export interface WeatherCardProps {
   windLabel: string;
   windUnit: string;
   precipitationLabel: string;
+  reserveSpace?: boolean;
 }
 
 export default function WeatherCard({
@@ -30,14 +31,15 @@ export default function WeatherCard({
   unitSymbol,
   windLabel,
   windUnit,
-  precipitationLabel
+  precipitationLabel,
+  reserveSpace = false
 }: WeatherCardProps) {
   return (
     <header className="weather-card">
       <div className="weather-card__current-label">Current</div>
       <h2 className="weather-card__title">{title}</h2>
       {loading && (
-        <div className="weather-card__loading-anim">
+        <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
           <div className="weather-card__spinner">
             <div className="weather-card__dot"></div>
             <div className="weather-card__dot"></div>

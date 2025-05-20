@@ -5,6 +5,7 @@ import './ThreeDayForecastStyles.css';
 interface ThreeDayForecastProps {
   latitude: number;
   longitude: number;
+  isLoading?: boolean;
 }
 
 interface ForecastDay {
@@ -16,13 +17,17 @@ interface ForecastDay {
   code: number;
 }
 
-export default function ThreeDayForecast({ latitude, longitude }: ThreeDayForecastProps) {
+export default function ThreeDayForecast({ latitude, longitude, isLoading }: ThreeDayForecastProps) {
   const [forecast, setForecast] = useState<ForecastDay[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!latitude || !longitude) return;
+   useEffect(() => {
+      fetchWeatherData();
+      // eslint-disable-next-line
+    }, [latitude, longitude]);
+
+  function fetchWeatherData() {
     setLoading(true);
     setError(null);
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&temperature_unit=fahrenheit&timezone=America%2FChicago`)
@@ -62,7 +67,8 @@ export default function ThreeDayForecast({ latitude, longitude }: ThreeDayForeca
         setError(err.message);
         setLoading(false);
       });
-  }, [latitude, longitude]);
+  }
+  
 
   function getDayLabel(dateStr: string): string {
     const today = new Date();
@@ -79,9 +85,17 @@ export default function ThreeDayForecast({ latitude, longitude }: ThreeDayForeca
 
   return (
     <div className="three-day-forecast">
-      {loading && <div style={{ color: '#888' }}>Loading forecast...</div>}
+      {(isLoading ?? loading) && (
+        <div className="three-day-forecast__row">
+          {[0, 1, 2, 3].map((idx) => (
+            <div key={idx} className="three-day-forecast__card three-day-forecast__card--loading">
+              <div className="sun-skeleton" aria-label="Loading forecast" />
+            </div>
+          ))}
+        </div>
+      )}
       {error && <div style={{ color: '#e74c3c' }}>Error: {error}</div>}
-      {!loading && !error && (
+      {!loading && !error && !isLoading && (
         <div className="three-day-forecast__row">
           {forecast.map((day, idx) => (
             <div

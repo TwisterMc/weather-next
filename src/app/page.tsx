@@ -216,6 +216,7 @@ export default function Home() {
               windLabel="Wind"
               windUnit="mph"
               precipitationLabel="Precipitation"
+              reserveSpace={true}
             />
             <WeatherCard
               title="Metric Units"
@@ -231,9 +232,10 @@ export default function Home() {
               windLabel="Wind"
               windUnit="knots"
               precipitationLabel="Precipitation"
+              reserveSpace={true}
             />
           </div>
-          <ThreeDayForecast latitude={latitude} longitude={longitude} />
+          <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />
         </div>
       </div>
       <section className="last-updated-row">
