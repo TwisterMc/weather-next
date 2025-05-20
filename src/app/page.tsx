@@ -1,6 +1,5 @@
-
-import Overview from "@/components/Overview/Overview";
+import Overview from '@/components/Overview/Overview';
 
 export default function Home() {
-  return <Overview />
+    return <Overview />;
 }

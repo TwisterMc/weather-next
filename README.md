@@ -5,16 +5,17 @@ This project is a modern, accessible weather app built with Next.js, TypeScript,
 ## Getting Started
 
 1. Install dependencies:
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 2. Run the development server:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 3. Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ## Features
+
 - Modular React components
 - TypeScript support
 - Accessible, modern UI
