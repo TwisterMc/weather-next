@@ -134,6 +134,7 @@ export default function Overview() {
                         windUnit="mph"
                         precipitationLabel="Precipitation"
                         reserveSpace={true}
+                        isFetchingLocation={isFetchingLocation}
                     />
                     <WeatherCard
                         title="Metric Units"
@@ -142,6 +143,7 @@ export default function Overview() {
                         windUnit="knots"
                         precipitationLabel="Precipitation"
                         reserveSpace={true}
+                        isFetchingLocation={isFetchingLocation}
                     />
                 </div>
                 <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />

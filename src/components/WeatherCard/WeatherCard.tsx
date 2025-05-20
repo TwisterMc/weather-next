@@ -9,6 +9,7 @@ export default function WeatherCard({
     windUnit,
     precipitationLabel,
     reserveSpace,
+    isFetchingLocation,
 }: {
     title: string;
     unitSymbol: string;
@@ -16,6 +17,7 @@ export default function WeatherCard({
     windUnit: string;
     precipitationLabel: string;
     reserveSpace?: boolean;
+    isFetchingLocation?: boolean;
 }) {
     const { iconUrl, condition, temperature, temperatureC, feelsLike, windSpeed, precipChance, loading, error } =
         useWeather();
@@ -34,6 +36,24 @@ export default function WeatherCard({
                 ? (windSpeed * 0.868976).toFixed(1)
                 : windSpeed
             : windSpeed;
+
+    // If fetching location, don't load or display data
+    if (isFetchingLocation) {
+        return (
+            <header className="weather-card">
+                <div className="weather-card__current-label">Current</div>
+                <h2 className="weather-card__title">{title}</h2>
+                <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
+                    <div className="weather-card__spinner">
+                        <div className="weather-card__dot"></div>
+                        <div className="weather-card__dot"></div>
+                        <div className="weather-card__dot"></div>
+                    </div>
+                    <p className="weather-card__loading">Fetching location...</p>
+                </div>
+            </header>
+        );
+    }
 
     return (
         <header className="weather-card">
