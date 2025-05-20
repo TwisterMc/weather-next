@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getWeatherIcon, getConditionText } from '../utils/locationUtils';
+import { getWeatherIcon, getConditionText } from '../../utils/locationUtils';
 import './ThreeDayForecastStyles.css';
 
 interface ThreeDayForecastProps {
