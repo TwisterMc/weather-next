@@ -55,9 +55,9 @@ export default function Overview() {
         } else if (temp > 80 && temp <= 90) {
             return 'linear-gradient(135deg, #f7971e 0%, #f44336 100%)';
         } else if (temp > 90 && temp <= 100) {
-            return 'linear-gradient(135deg, #f85032 0%, #e73827 100%)';
+            return 'linear-gradient(135deg, #f85032 0%,rgb(165, 25, 12) 100%)';
         } else {
-            return 'linear-gradient(135deg, #b31217 0%, #e52d27 100%)';
+            return 'linear-gradient(135deg,rgb(252, 47, 54) 0%,rgb(111, 19, 16) 100%)';
         }
     }
 
