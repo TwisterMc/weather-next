@@ -132,7 +132,7 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
             </div>
             <div className="location_switcher__content">
                 <div className="location_switcher__row">
-                    <div>
+                    <div className='location_switcher__row--align'>
                         <button
                             type="button"
                             className="location_switcher__btn location_switcher__btn__my-location"
@@ -144,7 +144,7 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                         </button>
                     </div>
                     <div className="location_switcher__divider">OR</div>
-                    <div className="location_switcher__inputs">
+                    <div className="location_switcher__inputs location_switcher__row--align">
                         <input
                             id="location-search"
                             type="text"
@@ -158,7 +158,7 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                             Examples: &quot;90210&quot; or &quot;Portland, OR&quot;
                         </small>
                     </div>
-                    <div>
+                    <div className='location_switcher__row--align'>
                         <button type="submit" className="location_switcher__btn">
                             Update Location
                         </button>
