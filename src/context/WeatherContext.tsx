@@ -145,6 +145,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                     () => {
                         setLocError('Could not get your location');
                         setIsFetchingLocation(false);
+                        setShowLocationForm(true);
                     }
                 );
             }
