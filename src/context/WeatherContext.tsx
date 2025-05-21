@@ -98,16 +98,14 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
     // Effect to update display location when location details change
     useEffect(() => {
-        if (zip) {
-            setDisplayLocation(zip);
-        } else if (city && state) {
+        if (city && state) {
             setDisplayLocation(`${city}, ${state}`);
         } else if (usedMyLocation) {
-            setDisplayLocation('Your Location');
+            setDisplayLocation('Loading location...');
         } else {
-            setDisplayLocation('');
+            setDisplayLocation('...');
         }
-    }, [city, state, zip, usedMyLocation]);
+    }, [city, state, usedMyLocation]);
 
     // Effect to initialize location on mount
     useEffect(() => {

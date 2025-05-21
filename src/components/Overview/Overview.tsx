@@ -57,7 +57,7 @@ export default function Overview() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            document.title = `The Weather For ${displayLocation || 'Your Location'}`;
+            document.title = `The Weather For ${displayLocation}`;
         }
     }, [displayLocation]);
 
@@ -93,7 +93,7 @@ export default function Overview() {
                 )}
             </div>
             <div style={{ textAlign: 'center', marginBottom: 32 }}>
-                <h1 className="app-title">The Weather For {displayLocation || 'Your Location'}</h1>
+                <h1 className="app-title">The Weather For {displayLocation}</h1>
             </div>
             <div className="weather-gradient-card" style={{ background: backgroundGradient }}>
                 <div className="weather-cards-row">
