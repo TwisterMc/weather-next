@@ -13,8 +13,8 @@ interface WeatherContextType {
     windSpeed: number | null;
     feelsLike: number | null;
     precipChance: number | null;
-    latitude: number;
-    longitude: number;
+    latitude: number | null;
+    longitude: number | null;
     city: string;
     state: string;
     zip: string;
@@ -54,13 +54,13 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [windSpeed, setWindSpeed] = useState<number | null>(null);
     const [feelsLike, setFeelsLike] = useState<number | null>(null);
     const [precipChance, setPrecipChance] = useState<number | null>(null);
-    const [latitude, setLatitude] = useState(44.959621);
-    const [longitude, setLongitude] = useState(-93.845337);
+    const [latitude, setLatitude] = useState<number | null>(null);
+    const [longitude, setLongitude] = useState<number | null>(null);
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [zip, setZip] = useState('');
     const [locError, setLocError] = useState('');
-    const [displayLocation, setDisplayLocation] = useState('');
+    const [displayLocation, setDisplayLocation] = useState('Select a location');
     const [isFetchingLocation, setIsFetchingLocation] = useState(false);
     const [usedMyLocation, setUsedMyLocation] = useState(false);
     const [showLocationForm, setShowLocationForm] = useState(false);
@@ -68,7 +68,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
     // Effect to save location to localStorage whenever it changes
     useEffect(() => {
-        if (typeof window !== 'undefined' && latitude && longitude) {
+        if (typeof window !== 'undefined' && latitude !== null && longitude !== null) {
             const locationData = {
                 latitude,
                 longitude,
@@ -83,7 +83,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
     // Effect to update location details when coordinates change
     useEffect(() => {
-        if (usedMyLocation && latitude && longitude) {
+        if (usedMyLocation && latitude !== null && longitude !== null) {
             getLocationFromLatLon(latitude, longitude)
                 .then(details => {
                     setCity(details.city);
@@ -92,6 +92,8 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 })
                 .catch(err => {
                     console.error('Failed to get location details:', err);
+                    setLocError('Could not determine your location. Please enter it manually.');
+                    setShowLocationForm(true);
                 });
         }
     }, [latitude, longitude, usedMyLocation]);
@@ -102,10 +104,12 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
             setDisplayLocation(`${city}, ${state}`);
         } else if (usedMyLocation) {
             setDisplayLocation('Loading location...');
+        } else if (latitude === null || longitude === null) {
+            setDisplayLocation('Select a location');
         } else {
-            setDisplayLocation('...');
+            setDisplayLocation('Loading location details...');
         }
-    }, [city, state, usedMyLocation]);
+    }, [city, state, usedMyLocation, latitude, longitude]);
 
     // Effect to initialize location on mount
     useEffect(() => {
@@ -194,6 +198,11 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     }, [latitude, longitude]);
 
     function fetchWeatherData() {
+        if (latitude === null || longitude === null) {
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation_probability&temperature_unit=fahrenheit&timezone=America%2FChicago`

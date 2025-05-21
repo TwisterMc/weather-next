@@ -116,7 +116,13 @@ export default function Overview() {
                         isFetchingLocation={isFetchingLocation}
                     />
                 </div>
-                <ThreeDayForecast latitude={latitude} longitude={longitude} isLoading={loading || isFetchingLocation} />
+                {latitude !== null && longitude !== null && (
+                    <ThreeDayForecast
+                        latitude={latitude}
+                        longitude={longitude}
+                        isLoading={loading || isFetchingLocation}
+                    />
+                )}
             </div>
         </div>
     );
