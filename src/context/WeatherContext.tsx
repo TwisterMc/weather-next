@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { weatherMap } from '@/utils/locationUtils';
+import { weatherMap, getLocationFromLatLon } from '@/utils/locationUtils';
 
 interface WeatherContextType {
     temperature: number | null;
@@ -29,7 +29,10 @@ interface WeatherContextType {
     setCity: (city: string) => void;
     setState: (state: string) => void;
     setZip: (zip: string) => void;
+    setLocError: (error: string) => void;
     setShowLocationForm: (show: boolean) => void;
+    setIsFetchingLocation: (fetching: boolean) => void;
+    setUsedMyLocation: (used: boolean) => void;
     refreshWeatherData: () => void;
 }
 
@@ -56,19 +59,140 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [zip, setZip] = useState('');
-    const [locError] = useState('');
+    const [locError, setLocError] = useState('');
     const [displayLocation, setDisplayLocation] = useState('');
     const [isFetchingLocation, setIsFetchingLocation] = useState(false);
-    const [usedMyLocation] = useState(false);
+    const [usedMyLocation, setUsedMyLocation] = useState(false);
     const [showLocationForm, setShowLocationForm] = useState(false);
     const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-    const [pendingLocation, setPendingLocation] = useState('');
-    const [lastLat, setLastLat] = useState(latitude);
-    const [lastLon, setLastLon] = useState(longitude);
 
+    // Effect to save location to localStorage whenever it changes
+    useEffect(() => {
+        if (typeof window !== 'undefined' && latitude && longitude) {
+            const locationData = {
+                latitude,
+                longitude,
+                city,
+                state,
+                zip,
+                usedMyLocation
+            };
+            localStorage.setItem('weatherLocation', JSON.stringify(locationData));
+        }
+    }, [latitude, longitude, city, state, zip, usedMyLocation]);
+
+    // Effect to update location details when coordinates change
+    useEffect(() => {
+        if (usedMyLocation && latitude && longitude) {
+            getLocationFromLatLon(latitude, longitude)
+                .then(details => {
+                    setCity(details.city);
+                    setState(details.state);
+                    setZip(details.zip);
+                })
+                .catch(err => {
+                    console.error('Failed to get location details:', err);
+                });
+        }
+    }, [latitude, longitude, usedMyLocation]);
+
+    // Effect to update display location when location details change
+    useEffect(() => {
+        if (zip) {
+            setDisplayLocation(zip);
+        } else if (city && state) {
+            setDisplayLocation(`${city}, ${state}`);
+        } else if (usedMyLocation) {
+            setDisplayLocation('Your Location');
+        } else {
+            setDisplayLocation('');
+        }
+    }, [city, state, zip, usedMyLocation]);
+
+    // Effect to initialize location on mount
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedLocation = localStorage.getItem('weatherLocation');
+            if (savedLocation) {
+                const { latitude, longitude, city, state, zip, usedMyLocation: savedUsedMyLocation } = JSON.parse(savedLocation);
+                setLatitude(latitude);
+                setLongitude(longitude);
+                setCity(city || '');
+                setState(state || '');
+                setZip(zip || '');
+                setUsedMyLocation(savedUsedMyLocation || false);
+            } else if (navigator.geolocation) {
+                setIsFetchingLocation(true);
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        setLatitude(pos.coords.latitude);
+                        setLongitude(pos.coords.longitude);
+                        setUsedMyLocation(true);
+                        setIsFetchingLocation(false);
+
+                        const locationData = {
+                            latitude: pos.coords.latitude,
+                            longitude: pos.coords.longitude,
+                            city: '',
+                            state: '',
+                            zip: '',
+                            usedMyLocation: true
+                        };
+                        localStorage.setItem('weatherLocation', JSON.stringify(locationData));
+                    },
+                    () => {
+                        setLocError('Could not get your location');
+                        setIsFetchingLocation(false);
+                    }
+                );
+            }
+        }
+    }, []);
+
+    // Effect to load saved location from localStorage on app start
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedLocation = localStorage.getItem('weatherLocation');
+            if (savedLocation) {
+                try {
+                    const {
+                        latitude: savedLat,
+                        longitude: savedLon,
+                        city: savedCity,
+                        state: savedState,
+                        zip: savedZip,
+                        usedMyLocation: savedUsedMyLocation
+                    } = JSON.parse(savedLocation);
+
+                    // Only update location if we actually have coordinates
+                    if (savedLat && savedLon) {
+                        setLatitude(savedLat);
+                        setLongitude(savedLon);
+                        if (savedUsedMyLocation) {
+                            setUsedMyLocation(true);
+                            // When using geolocation, we clear the form fields
+                            setCity('');
+                            setState('');
+                            setZip('');
+                        } else {
+                            // When using manual location, restore the form fields
+                            setCity(savedCity || '');
+                            setState(savedState || '');
+                            setZip(savedZip || '');
+                        }
+                        setShowLocationForm(false); // Close the form after restoring location
+                    }
+                } catch (err) {
+                    console.error('Failed to parse saved location:', err);
+                }
+            }
+        }
+    }, []);
+
+    // Effect to fetch weather data when location changes
     useEffect(() => {
         fetchWeatherData();
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [latitude, longitude]);
 
     function fetchWeatherData() {
@@ -108,45 +232,6 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
         fetchWeatherData();
     }
 
-    useEffect(() => {
-        if (zip) {
-            setPendingLocation(zip);
-        } else if (city && state) {
-            setPendingLocation(`${city}, ${state}`);
-        } else {
-            setPendingLocation('');
-        }
-    }, [zip, city, state]);
-
-    useEffect(() => {
-        if (!loading && !isFetchingLocation && (latitude !== lastLat || longitude !== lastLon)) {
-            if (usedMyLocation) {
-                setDisplayLocation('Your Location');
-            } else {
-                setDisplayLocation(pendingLocation);
-            }
-            setLastLat(latitude);
-            setLastLon(longitude);
-            setShowLocationForm(false);
-        }
-    }, [loading, isFetchingLocation, latitude, longitude, pendingLocation, usedMyLocation, lastLat, lastLon]);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && navigator.geolocation) {
-            setIsFetchingLocation(true);
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    setLatitude(pos.coords.latitude);
-                    setLongitude(pos.coords.longitude);
-                    setIsFetchingLocation(false);
-                },
-                () => {
-                    setIsFetchingLocation(false);
-                }
-            );
-        }
-    }, []);
-
     return (
         <WeatherContext.Provider
             value={{
@@ -175,6 +260,9 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 setCity,
                 setState,
                 setZip,
+                setLocError,
+                setIsFetchingLocation,
+                setUsedMyLocation,
                 setShowLocationForm,
                 refreshWeatherData,
             }}

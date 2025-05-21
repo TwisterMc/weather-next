@@ -15,6 +15,12 @@ export interface WeatherMapEntry {
     text: string;
 }
 
+export interface LocationDetails {
+    city: string;
+    state: string;
+    zip: string;
+}
+
 export type WeatherMap = Record<number, WeatherMapEntry>;
 
 // Utility to fetch lat/lon from city/state or zip using Nominatim
@@ -35,6 +41,28 @@ export async function getLatLonFromLocation({ city, state, zip }: LocationInput)
     return {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon),
+    };
+}
+
+export async function getLocationFromLatLon(lat: number, lon: number): Promise<LocationDetails> {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+    const response = await fetch(url, {
+        headers: {
+            'Accept-Language': 'en',
+            'User-Agent': 'WeatherApp/1.0'
+        }
+    });
+
+    if (!response.ok) throw new Error('Location lookup failed');
+
+    const data = await response.json();
+    if (!data.address) throw new Error('Location details not found');
+
+    const address = data.address;
+    return {
+        city: address.city || address.town || address.village || address.hamlet || '',
+        state: address.state || '',
+        zip: address.postcode || ''
     };
 }
 

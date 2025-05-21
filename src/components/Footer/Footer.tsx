@@ -10,7 +10,7 @@ export default function Footer() {
                 <span className="last-updated-label">Last updated: {lastUpdated ? lastUpdated : '—'}</span>
                 <button
                     type="button"
-                    className="location_switcher__btn location-switcher__refresh-btn"
+                    className="last-updated-btn"
                     onClick={refreshWeatherData}
                     aria-label="Refresh weather data"
                 >

@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect } from 'react';
-import { getLatLonFromLocation } from '@/utils/locationUtils';
 import ThreeDayForecast from '@/components/ThreeDayForecast/ThreeDayForecast';
 import LocationSwitcher from '@/components/LocationSwitcher/LocationSwitcher';
 import './Overview.css';
@@ -13,18 +12,11 @@ export default function Overview() {
         loading,
         latitude,
         longitude,
-        city,
-        state,
-        zip,
-        locError,
+
         displayLocation,
         isFetchingLocation,
         showLocationForm,
-        setLatitude,
-        setLongitude,
-        setCity,
-        setState,
-        setZip,
+
         setShowLocationForm,
         refreshWeatherData,
     } = useWeather();
@@ -92,30 +84,8 @@ export default function Overview() {
                 </button>
                 {showLocationForm && (
                     <div className="location-switcher-flydown">
-                        <button
-                            type="button"
-                            className="location-switcher-flydown__close-btn"
-                            aria-label="Close Location Switcher"
-                            onClick={() => setShowLocationForm(false)}
-                        >
-                            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                                <path d="M6 6l8 8M14 6l-8 8" stroke="#1a5fa0" strokeWidth="2" strokeLinecap="round" />
-                            </svg>
-                        </button>
+
                         <LocationSwitcher
-                            city={city}
-                            state={state}
-                            zip={zip}
-                            locError={locError}
-                            setCity={setCity}
-                            setState={setState}
-                            setZip={setZip}
-                            setLocError={() => { }}
-                            setIsFetchingLocation={() => { }}
-                            setUsedMyLocation={() => { }}
-                            getLatLonFromLocation={getLatLonFromLocation}
-                            setLatitude={setLatitude}
-                            setLongitude={setLongitude}
                             show={true}
                             onClose={() => setShowLocationForm(false)}
                         />

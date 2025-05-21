@@ -17,3 +17,29 @@
     color: #174b7a;
     outline: none;
 }
+
+.last-updated-row {
+    margin-bottom: 10px;
+}
+
+.last-updated-label {
+    margin-right: 10px;
+}
+
+.last-updated-btn {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background: #1a5fa0;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.last-updated-btn:hover {
+    background: #174b7a;
+}
