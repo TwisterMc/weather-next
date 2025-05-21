@@ -41,7 +41,7 @@
     color: var(--color-white);
     border: none;
     font-weight: 600;
-    font-size: .8rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all var(--animation-duration-fast);
     white-space: nowrap;

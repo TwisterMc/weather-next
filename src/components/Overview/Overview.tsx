@@ -75,17 +75,17 @@ export default function Overview() {
                 </button>
                 {showLocationForm && (
                     <div className="location-switcher-flydown">
-                        <LocationSwitcher
-                            show={true}
-                            onClose={() => setShowLocationForm(false)}
-                        />
+                        <LocationSwitcher show={true} onClose={() => setShowLocationForm(false)} />
                     </div>
                 )}
             </div>
             <div className="location-title-wrapper">
                 <h1 className="app-title">The Weather For {displayLocation}</h1>
             </div>
-            <div className="weather-gradient-card" style={{ '--weather-gradient': backgroundGradient } as React.CSSProperties}>
+            <div
+                className="weather-gradient-card"
+                style={{ '--weather-gradient': backgroundGradient } as React.CSSProperties}
+            >
                 <div className="weather-cards-row">
                     <WeatherCard
                         title="US Units"

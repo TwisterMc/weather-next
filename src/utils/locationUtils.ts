@@ -49,8 +49,8 @@ export async function getLocationFromLatLon(lat: number, lon: number): Promise<L
     const response = await fetch(url, {
         headers: {
             'Accept-Language': 'en',
-            'User-Agent': 'WeatherApp/1.0'
-        }
+            'User-Agent': 'WeatherApp/1.0',
+        },
     });
 
     if (!response.ok) throw new Error('Location lookup failed');
@@ -62,7 +62,7 @@ export async function getLocationFromLatLon(lat: number, lon: number): Promise<L
     return {
         city: address.city || address.town || address.village || address.hamlet || '',
         state: address.state || '',
-        zip: address.postcode || ''
+        zip: address.postcode || '',
     };
 }
 

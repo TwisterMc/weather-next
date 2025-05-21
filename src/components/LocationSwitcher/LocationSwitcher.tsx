@@ -18,7 +18,7 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
         setLongitude,
         setCity,
         setState,
-        setZip
+        setZip,
     } = useWeather();
 
     const [searchInput, setSearchInput] = React.useState('');
@@ -46,7 +46,7 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                     const [, cityPart, statePart] = match;
                     locationQuery = {
                         city: cityPart.trim(),
-                        state: statePart ? statePart.trim() : ''
+                        state: statePart ? statePart.trim() : '',
                     };
                     setCity(cityPart.trim());
                     setState(statePart ? statePart.trim() : '');
@@ -132,14 +132,22 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
             </div>
             <div className="location_switcher__content">
                 <div className="location_switcher__row">
-                    <div className='location_switcher__row--align'>
+                    <div className="location_switcher__row--align">
                         <button
                             type="button"
                             className="location_switcher__btn location_switcher__btn__my-location"
                             onClick={handleUseMyLocation}
                             aria-label="Use My Location"
                         >
-                            <svg className="location_switcher__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path></svg>
+                            <svg
+                                className="location_switcher__icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512"
+                                aria-hidden="true"
+                                focusable="false"
+                            >
+                                <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                            </svg>
                             Use My Location
                         </button>
                     </div>
@@ -158,14 +166,17 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                             Examples: &quot;90210&quot; or &quot;Portland, OR&quot;
                         </small>
                     </div>
-                    <div className='location_switcher__row--align'>
+                    <div className="location_switcher__row--align">
                         <button type="submit" className="location_switcher__btn">
                             Update Location
                         </button>
                     </div>
                 </div>
-                {locError && <div className="error-message" role="alert">{locError}</div>}
-
+                {locError && (
+                    <div className="error-message" role="alert">
+                        {locError}
+                    </div>
+                )}
             </div>
         </form>
     );

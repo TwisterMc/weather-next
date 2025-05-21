@@ -75,7 +75,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 city,
                 state,
                 zip,
-                usedMyLocation
+                usedMyLocation,
             };
             localStorage.setItem('weatherLocation', JSON.stringify(locationData));
         }
@@ -85,12 +85,12 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (usedMyLocation && latitude !== null && longitude !== null) {
             getLocationFromLatLon(latitude, longitude)
-                .then(details => {
+                .then((details) => {
                     setCity(details.city);
                     setState(details.state);
                     setZip(details.zip);
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.error('Failed to get location details:', err);
                     setLocError('Could not determine your location. Please enter it manually.');
                     setShowLocationForm(true);
@@ -116,7 +116,14 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
         if (typeof window !== 'undefined') {
             const savedLocation = localStorage.getItem('weatherLocation');
             if (savedLocation) {
-                const { latitude, longitude, city, state, zip, usedMyLocation: savedUsedMyLocation } = JSON.parse(savedLocation);
+                const {
+                    latitude,
+                    longitude,
+                    city,
+                    state,
+                    zip,
+                    usedMyLocation: savedUsedMyLocation,
+                } = JSON.parse(savedLocation);
                 setLatitude(latitude);
                 setLongitude(longitude);
                 setCity(city || '');
@@ -138,7 +145,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                             city: '',
                             state: '',
                             zip: '',
-                            usedMyLocation: true
+                            usedMyLocation: true,
                         };
                         localStorage.setItem('weatherLocation', JSON.stringify(locationData));
                     },
@@ -164,7 +171,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                         city: savedCity,
                         state: savedState,
                         zip: savedZip,
-                        usedMyLocation: savedUsedMyLocation
+                        usedMyLocation: savedUsedMyLocation,
                     } = JSON.parse(savedLocation);
 
                     // Only update location if we actually have coordinates
