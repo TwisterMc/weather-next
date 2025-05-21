@@ -1,5 +1,5 @@
 const config = {
-  plugins: {}
+    plugins: {}
 };
 
 // PostCSS config removed after Tailwind uninstall
