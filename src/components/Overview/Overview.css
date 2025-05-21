@@ -2,7 +2,8 @@
     border-radius: 40px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
     padding: 2.5rem 2rem;
-    margin: 0 auto 1rem auto;
+    margin: 10px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,9 +38,9 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .weather-gradient-card {
-        margin: 10px;
+        margin: 0 auto 1rem auto;
     }
 }
 
@@ -97,8 +98,9 @@
     top: -30px;
     left: 50%;
     transform: translate(-50%, -8px) scale(0.98);
-    min-width: 340px;
-    max-width: 900px;
+
+    max-width: 96%;
+    min-width: 280px;
     width: 100%;
     background: #fff;
     border-radius: 16px;
@@ -116,10 +118,10 @@
     will-change: transform, opacity;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 600px) {
     .location-switcher-flydown {
-        max-width: 96%;
-        min-width: 280px;
+        min-width: 340px;
+        max-width: 900px;
     }
 }
 
