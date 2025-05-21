@@ -1,55 +1,61 @@
 .location-form {
+    --switcher-radius: 12px;
+    --switcher-padding: 1.25rem;
+    --switcher-button-radius: 8px;
+    --switcher-border-width: 2px;
+    --switcher-color-muted: #6f747a;
+    --switcher-color-background: #f8fafc;
+
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: #fff;
-    border-radius: 12px;
+    background: var(--color-white);
+    border-radius: var(--switcher-radius);
     overflow: hidden;
-    box-shadow: 0 4px 24px rgba(31, 38, 135, 0.1);
+    box-shadow: var(--shadow-md);
 }
 
 .location_switcher__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.25rem;
-    background: #f8fafc;
-    border-bottom: 1px solid #e0e4e9;
+    padding: 1rem var(--switcher-padding);
+    background: var(--switcher-color-background);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .location_switcher__title {
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2a2a2a;
+    color: var(--color-text);
 }
 
 .location_switcher__close {
     background: none;
     border: none;
-    color: #6f747a;
+    color: var(--switcher-color-muted);
     font-size: 1.2rem;
     padding: 0.4rem;
     cursor: pointer;
     line-height: 1;
     border-radius: 6px;
-    transition: all 0.2s ease;
+    transition: all var(--animation-duration-fast);
 }
 
 .location_switcher__close:hover {
     background: rgba(0, 0, 0, 0.05);
-    color: #2a2a2a;
+    color: var(--color-text);
 }
 
 .location_switcher__content {
-    padding: 1.25rem;
+    padding: var(--switcher-padding);
 }
 
 .location_switcher__row {
     flex-direction: column;
     align-items: center;
     display: flex;
-
     gap: 1rem;
     margin-bottom: 1rem;
     justify-content: center;
@@ -59,9 +65,7 @@
     .location_switcher__row--align {
         align-self: flex-start;
     }
-}
 
-@media (min-width: 768px) {
     .location_switcher__row {
         flex-direction: row;
         align-items: baseline;
@@ -77,55 +81,54 @@
 .location_switcher__input {
     width: inherit;
     padding: 0.75rem 1rem;
-    border: 2px solid #e0e4e9;
-    border-radius: 8px;
+    border: var(--switcher-border-width) solid var(--color-border);
+    border-radius: var(--switcher-button-radius);
     font-size: 1rem;
-    transition: all 0.2s ease;
-    background: #fff;
+    transition: all var(--animation-duration-fast);
+    background: var(--color-white);
 }
 
 .location_switcher__input:focus {
-    border-color: #1a5fa0;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 0.2rem rgba(26, 95, 160, 0.15);
     outline: none;
 }
 
 .location_switcher__help {
-    color: #6f747a;
+    color: var(--switcher-color-muted);
     font-size: 0.85rem;
 }
 
 .location_switcher__btn,
 .location_switcher__btn__my-location {
     padding: 0.75rem 1.4rem;
-    border-radius: 8px;
-    background: #1a5fa0;
-    color: #fff;
-    border: 2px solid #1a5fa0;
-
+    border-radius: var(--switcher-button-radius);
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: var(--switcher-border-width) solid var(--color-primary);
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--animation-duration-fast);
     white-space: nowrap;
 }
 
 .location_switcher__btn:hover,
 .location_switcher__btn:active {
-    background: #174b7a;
+    background: var(--color-primary-dark);
 }
 
 .location_switcher__btn__my-location {
-    background-color: #fff;
-    color: #1a5fa0;
-    border: 2px solid #1a5fa0;
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    border: var(--switcher-border-width) solid var(--color-primary);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .location_switcher__btn__my-location:hover {
-    background: #f3f6fa;
+    background: var(--color-bg-light);
 }
 
 .location_switcher__icon {
@@ -136,7 +139,7 @@
 }
 
 .location_switcher__divider {
-    color: #6f747a;
+    color: var(--switcher-color-muted);
     font-weight: 500;
     font-size: 0.9rem;
     margin: 0 0.5rem;
@@ -149,11 +152,14 @@
 }
 
 .error-message {
-    color: #e74c3c;
-    background: #fff6f6;
-    border: 1px solid #fad7d7;
+    --error-bg: #fff6f6;
+    --error-border: #fad7d7;
+
+    color: var(--color-error);
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
     padding: 0.75rem 1rem;
-    border-radius: 8px;
+    border-radius: var(--switcher-button-radius);
     text-align: center;
     font-weight: 500;
     font-size: 0.9rem;

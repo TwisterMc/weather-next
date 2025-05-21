@@ -44,6 +44,28 @@
     }
 }
 
+.location-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 10;
+}
+
+.location-controls__button {
+    position: relative;
+    z-index: 11;
+}
+
+.location-title-wrapper {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.weather-gradient-card {
+    background-image: var(--weather-gradient);
+}
+
 .weather-cards-row {
     display: flex;
     gap: 2.5rem;

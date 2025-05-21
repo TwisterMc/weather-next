@@ -1,12 +1,44 @@
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    /* Colors */
+    --color-primary: #1a5fa0;
+    --color-primary-dark: #174b7a;
+    --color-primary-light: #74ebd5;
+    --color-text: #222;
+    --color-text-muted: #666;
+    --color-text-light: #888;
+    --color-error: #e74c3c;
+    --color-white: #fff;
+    --color-bg-light: #f3f6fa;
+    --color-border: #e0e4e9;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(31, 38, 135, 0.1);
+    --shadow-md: 0 4px 16px rgba(31, 38, 135, 0.1);
+    --shadow-lg: 0 8px 32px rgba(31, 38, 135, 0.25);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(90deg, #43cea2 0%, var(--color-primary) 100%);
+
+    /* Animations */
+    --animation-duration-fast: 0.2s;
+    --animation-duration-normal: 0.3s;
+    --animation-duration-slow: 0.5s;
+    --animation-timing-bounce: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Theme Colors */
+    --background: var(--color-white);
+    --foreground: var(--color-text);
+    --bg-gradient-overlay: rgba(255, 255, 255, 0.95);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #0a0a0a;
         --foreground: #ededed;
+        --color-text: #ededed;
+        --color-text-muted: #999;
+        --color-text-light: #aaa;
+        --bg-gradient-overlay: rgba(0, 0, 0, 0.95);
     }
 }
 
@@ -17,7 +49,7 @@ body {
 }
 
 .app-root {
-    background: #fff;
+    background: var(--color-white);
     min-height: 100vh;
     display: block;
     padding: 2rem 0;
@@ -30,6 +62,6 @@ body {
 .app-title {
     font-weight: 700;
     font-size: 2.1rem;
-    color: #1a5fa0;
+    color: var(--color-primary);
     margin: 0;
 }

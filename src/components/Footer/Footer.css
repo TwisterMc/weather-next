@@ -1,24 +1,28 @@
 /* Footer styles for weather app */
 .app-footer {
+    --footer-font-size: 15px;
+    --footer-spacing: 32px;
+    --button-radius: 8px;
+
     text-align: center;
-    margin-top: 32px;
-    color: #222;
-    font-size: 15px;
+    margin-top: var(--footer-spacing);
+    color: var(--color-text);
+    font-size: var(--footer-font-size);
 }
 
 .app-footer__link {
-    color: #1a5fa0;
+    color: var(--color-primary);
     text-decoration: underline;
-    transition: color 0.18s;
+    transition: color var(--animation-duration-fast);
 }
 
 .app-footer__link:hover {
-    color: #174b7a;
+    color: var(--color-primary-dark);
 }
 
 .app-footer__link:focus {
-    color: #174b7a;
-    outline: 2px solid #1a5fa0;
+    color: var(--color-primary-dark);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
 }
 
@@ -32,18 +36,18 @@
 
 .last-updated-btn {
     padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    background: #1a5fa0;
-    color: #fff;
+    border-radius: var(--button-radius);
+    background: var(--color-primary);
+    color: var(--color-white);
     border: none;
     font-weight: 600;
     font-size: .8rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--animation-duration-fast);
     white-space: nowrap;
     align-self: flex-start;
 }
 
 .last-updated-btn:hover {
-    background: #174b7a;
+    background: var(--color-primary-dark);
 }

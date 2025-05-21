@@ -1,5 +1,14 @@
 .three-day-forecast {
-    max-width: 850px;
+    --forecast-max-width: 850px;
+    --forecast-gap-mobile: 16px;
+    --forecast-gap-desktop: 32px;
+    --forecast-card-padding-mobile: 10px;
+    --forecast-card-padding-desktop: 20px;
+    --forecast-card-min-width-mobile: 117px;
+    --forecast-card-min-width-desktop: 140px;
+    --forecast-card-radius: 24px;
+
+    max-width: var(--forecast-max-width);
     margin: 0 auto;
     text-align: center;
 }
@@ -7,27 +16,26 @@
 .three-day-forecast__row {
     display: flex;
     justify-content: center;
-
-    gap: 16px;
+    gap: var(--forecast-gap-mobile);
     flex-wrap: wrap;
 }
 
 .three-day-forecast__card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 24px;
-    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
-    min-width: 117px;
-    padding: 10px;
+    background: var(--bg-gradient-overlay);
+    border-radius: var(--forecast-card-radius);
+    box-shadow: var(--shadow-md);
+    min-width: var(--forecast-card-min-width-mobile);
+    padding: var(--forecast-card-padding-mobile);
 }
 
 @media (min-width: 500px) {
     .three-day-forecast__row {
-        gap: 32px;
+        gap: var(--forecast-gap-desktop);
     }
 
     .three-day-forecast__card {
-        padding: 20px;
-        min-width: 140px;
+        padding: var(--forecast-card-padding-desktop);
+        min-width: var(--forecast-card-min-width-desktop);
     }
 }
 
@@ -38,7 +46,7 @@
 }
 
 .three-day-forecast__date--today {
-    color: #1a5fa0;
+    color: var(--color-primary);
 }
 
 .three-day-forecast__icon {
@@ -48,32 +56,31 @@
 
 .three-day-forecast__condition {
     font-size: 14px;
-    color: #444;
+    color: var(--color-text-muted);
     margin-bottom: 8px;
 }
 
 .three-day-forecast__temps {
     font-size: 15px;
-    color: #1a5fa0;
+    color: var(--color-primary);
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.three-day-forecast__temps-c {
-    color: #888;
-    font-size: 13px;
-}
-
+.three-day-forecast__temps-c,
 .three-day-forecast__na {
-    color: #888;
+    color: var(--color-text-light);
     font-size: 13px;
 }
 
 .skeleton-box {
-    background: linear-gradient(90deg, #f3f3f3 25%, #e0e0e0 50%, #f3f3f3 75%);
+    background: linear-gradient(90deg,
+            var(--color-bg-light) 25%,
+            var(--color-border) 50%,
+            var(--color-bg-light) 75%);
     background-size: 200% 100%;
-    animation: skeleton-loading 1.2s infinite linear;
+    animation: skeleton-loading var(--animation-duration-slow) infinite linear;
     border-radius: 6px;
 }
 
@@ -92,15 +99,17 @@
 }
 
 .cloud-skeleton {
+    --cloud-gradient: linear-gradient(90deg, #e0e7ef 25%, #f4f6fa 50%, #e0e7ef 75%);
+
     width: 64px;
     height: 40px;
     margin: 32px auto 24px auto;
-    background: linear-gradient(90deg, #e0e7ef 25%, #f4f6fa 50%, #e0e7ef 75%);
+    background: var(--cloud-gradient);
     border-radius: 50% 50% 60% 60% / 60% 60% 80% 80%;
     position: relative;
     animation: cloud-move 1.6s infinite linear;
     box-shadow:
-        0 8px 24px 0 rgba(120, 130, 150, 0.08),
+        0 8px 24px rgba(120, 130, 150, 0.08),
         0 0 0 8px #f4f6fa;
 }
 
@@ -129,7 +138,7 @@
 @keyframes cloud-move {
     0% {
         filter: brightness(1);
-        transform: translateY(0px) scale(1);
+        transform: translateY(0) scale(1);
     }
 
     50% {
@@ -139,21 +148,26 @@
 
     100% {
         filter: brightness(1);
-        transform: translateY(0px) scale(1);
+        transform: translateY(0) scale(1);
     }
 }
 
 .sun-skeleton {
+    --sun-color-light: #fffbe6;
+    --sun-color-dark: #ffe066;
+
     width: 48px;
     height: 48px;
     margin: 32px auto 24px auto;
     border-radius: 50%;
-    background: radial-gradient(circle at 60% 40%, #fffbe6 60%, #ffe066 100%);
+    background: radial-gradient(circle at 60% 40%,
+            var(--sun-color-light) 60%,
+            var(--sun-color-dark) 100%);
     box-shadow:
-        0 0 24px 8px #ffe06699,
-        0 0 0 8px #fffbe6;
+        0 0 24px 8px rgba(255, 224, 102, 0.6),
+        0 0 0 8px var(--sun-color-light);
     position: relative;
-    animation: sun-spin 2.8s linear infinite;
+    animation: sun-spin var(--animation-duration-slow) * 5.6 linear infinite;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -167,7 +181,8 @@
     width: 72px;
     height: 72px;
     transform: translate(-50%, -50%);
-    background: repeating-conic-gradient(#ffe066 0deg 10deg, transparent 10deg 30deg);
+    background: repeating-conic-gradient(var(--sun-color-dark) 0deg 10deg,
+            transparent 10deg 30deg);
     border-radius: 50%;
     z-index: 0;
     opacity: 0.7;

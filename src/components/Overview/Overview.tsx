@@ -63,28 +63,18 @@ export default function Overview() {
 
     return (
         <div>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginBottom: 24,
-                    position: 'relative',
-                    zIndex: 10,
-                }}
-            >
+            <div className="location-controls">
                 <button
                     type="button"
-                    className="location-toggle-btn"
+                    className="location-toggle-btn location-controls__button"
                     onClick={() => setShowLocationForm(!showLocationForm)}
                     aria-expanded={showLocationForm}
                     aria-controls="location-switcher-form"
-                    style={{ position: 'relative', zIndex: 11 }}
                 >
                     {showLocationForm ? 'Hide Location Switcher' : 'Change Location'}
                 </button>
                 {showLocationForm && (
                     <div className="location-switcher-flydown">
-
                         <LocationSwitcher
                             show={true}
                             onClose={() => setShowLocationForm(false)}
@@ -92,10 +82,10 @@ export default function Overview() {
                     </div>
                 )}
             </div>
-            <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <div className="location-title-wrapper">
                 <h1 className="app-title">The Weather For {displayLocation}</h1>
             </div>
-            <div className="weather-gradient-card" style={{ background: backgroundGradient }}>
+            <div className="weather-gradient-card" style={{ '--weather-gradient': backgroundGradient } as React.CSSProperties}>
                 <div className="weather-cards-row">
                     <WeatherCard
                         title="US Units"
