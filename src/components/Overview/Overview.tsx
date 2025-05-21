@@ -36,28 +36,28 @@ export default function Overview() {
 
     function getBackgroundGradient(temp: number | null) {
         if (temp === null || isNaN(temp)) {
-            return 'linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%)';
+            return 'linear-gradient(135deg, #74ebd5 0%, #ACB6E5 50%, #74ebd5 100%)';
         }
         if (temp <= 0) {
-            return 'linear-gradient(135deg, #0a2342 0%, #274472 100%)';
+            return 'linear-gradient(135deg, #0a2342 0%, #274472 50%, #0a2342 100%)';
         } else if (temp > 0 && temp <= 10) {
-            return 'linear-gradient(135deg, #0f2027 0%, #2c5364 100%)';
+            return 'linear-gradient(135deg, #0f2027 0%, #2c5364 50%, #0f2027 100%)';
         } else if (temp > 10 && temp <= 25) {
-            return 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+            return 'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%)';
         } else if (temp > 25 && temp <= 32) {
-            return 'linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%)';
+            return 'linear-gradient(135deg, #74ebd5 0%, #ACB6E5 50%, #74ebd5 100%)';
         } else if (temp > 32 && temp <= 50) {
-            return 'linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%)';
+            return 'linear-gradient(135deg, #56ccf2 0%, #2f80ed 50%, #56ccf2 100%)';
         } else if (temp > 50 && temp <= 65) {
-            return 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)';
+            return 'linear-gradient(135deg, #43cea2 0%, #185a9d 50%, #43cea2 100%)';
         } else if (temp > 65 && temp <= 80) {
-            return 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)';
+            return 'linear-gradient(135deg, #f7971e 0%, #ffd200 50%, #f7971e 100%)';
         } else if (temp > 80 && temp <= 90) {
-            return 'linear-gradient(135deg, #f7971e 0%, #f44336 100%)';
+            return 'linear-gradient(135deg, #f7971e 0%, #f44336 50%, #f7971e 100%)';
         } else if (temp > 90 && temp <= 100) {
-            return 'linear-gradient(135deg, #f85032 0%,rgb(165, 25, 12) 100%)';
+            return 'linear-gradient(135deg, #f85032 0%, rgb(165, 25, 12) 50%, #f85032 100%)';
         } else {
-            return 'linear-gradient(135deg,rgb(252, 47, 54) 0%,rgb(111, 19, 16) 100%)';
+            return 'linear-gradient(135deg, rgb(252, 47, 54) 0%, rgb(111, 19, 16) 50%, rgb(252, 47, 54) 100%)';
         }
     }
 
