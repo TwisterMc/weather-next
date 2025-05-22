@@ -1,0 +1,69 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+}
+
+.titleRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .titleRow {
+        justify-content: center;
+        gap: 2rem;
+    }
+}
+
+.title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-align: center;
+    margin: 0;
+}
+
+.locationToggle {
+    /* Colors */
+    background: var(--btn-bg-color);
+    color: var(--btn-primary-color);
+
+    /* Typography */
+    font-weight: 600;
+    font-size: 1rem;
+
+    /* Layout */
+    padding: 0.6rem 1.6rem;
+    border: none;
+    border-radius: var(--btn-border-radius);
+
+    /* Interaction */
+    cursor: pointer;
+    transition: all var(--btn-transition-duration);
+    white-space: nowrap;
+}
+
+.locationToggle:hover,
+.locationToggle:active {
+    background: var(--btn-primary-color);
+    color: var(--color-white);
+    box-shadow: 0 4px 12px var(--btn-hover-shadow);
+}
+
+.locationToggle:focus {
+    outline: 2px solid var(--btn-primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px var(--btn-focus-shadow);
+}
+
+.locationSwitcher {
+    position: absolute;
+    top: 80px;
+    z-index: 10;
+}

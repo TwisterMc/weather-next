@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
 import ThreeDayForecast from '@/components/ThreeDayForecast/ThreeDayForecast';
-import LocationSwitcher from '@/components/LocationSwitcher/LocationSwitcher';
 import './Overview.css';
 import WeatherCard from '@/components/WeatherCard/WeatherCard';
 import { useWeather } from '@/context/WeatherContext';
@@ -12,13 +11,8 @@ export default function Overview() {
         loading,
         latitude,
         longitude,
-
-        displayLocation,
-        isFetchingLocation,
-        showLocationForm,
-
-        setShowLocationForm,
         refreshWeatherData,
+        isFetchingLocation,
     } = useWeather();
 
     useEffect(() => {
@@ -55,33 +49,8 @@ export default function Overview() {
 
     const backgroundGradient = getBackgroundGradient(temperature);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            document.title = `The Weather For ${displayLocation}`;
-        }
-    }, [displayLocation]);
-
     return (
         <div>
-            <div className="location-controls">
-                <button
-                    type="button"
-                    className="location-toggle-btn location-controls__button"
-                    onClick={() => setShowLocationForm(!showLocationForm)}
-                    aria-expanded={showLocationForm}
-                    aria-controls="location-switcher-form"
-                >
-                    {showLocationForm ? 'Hide Location Switcher' : 'Change Location'}
-                </button>
-                {showLocationForm && (
-                    <div className="location-switcher-flydown">
-                        <LocationSwitcher show={true} onClose={() => setShowLocationForm(false)} />
-                    </div>
-                )}
-            </div>
-            <div className="location-title-wrapper">
-                <h1 className="app-title">The Weather For {displayLocation}</h1>
-            </div>
             <div
                 className="weather-gradient-card"
                 style={{ '--weather-gradient': backgroundGradient } as React.CSSProperties}

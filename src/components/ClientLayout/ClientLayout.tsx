@@ -3,6 +3,7 @@
 import React from 'react';
 import { WeatherProvider } from '@/context/WeatherContext';
 import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
 
 export default function ClientLayout({
     children,
@@ -11,6 +12,7 @@ export default function ClientLayout({
 }) {
     return (
         <WeatherProvider>
+            <Header />
             {children}
             <Footer />
         </WeatherProvider>

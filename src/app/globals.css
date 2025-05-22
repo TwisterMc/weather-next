@@ -1,7 +1,7 @@
 :root {
     /* Colors */
     --color-primary: #1a5fa0;
-    --color-primary-dark: #174b7a;
+    --color-primary-dark: #164e84;
     --color-primary-light: #74ebd5;
     --color-text: #222;
     --color-text-muted: #666;
@@ -13,7 +13,7 @@
 
     /* Shadows */
     --shadow-sm: 0 2px 8px rgba(31, 38, 135, 0.1);
-    --shadow-md: 0 4px 16px rgba(31, 38, 135, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 8px 32px rgba(31, 38, 135, 0.25);
 
     /* Gradients */
@@ -29,6 +29,14 @@
     --background: var(--color-white);
     --foreground: var(--color-text);
     --bg-gradient-overlay: rgba(255, 255, 255, 0.95);
+
+    /* Button Variables */
+    --btn-primary-color: #1a5fa0;
+    --btn-bg-color: #f3f6fa;
+    --btn-hover-shadow: rgba(31, 38, 135, 0.15);
+    --btn-focus-shadow: #43cea233;
+    --btn-border-radius: 20px;
+    --btn-transition-duration: 0.2s;
 }
 
 @media (prefers-color-scheme: dark) {
