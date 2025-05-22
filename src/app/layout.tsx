@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Footer from '../components/Footer/Footer';
-import { WeatherProvider } from '@/context/WeatherContext';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/next';
+import ClientLayout from '@/components/ClientLayout/ClientLayout';
 
 export const metadata: Metadata = {
     title: 'Weather App',
@@ -25,10 +24,9 @@ export default function RootLayout({
             <body>
                 <div className="app-root">
                     <div className="app-container">
-                        <WeatherProvider>
+                        <ClientLayout>
                             {children}
-                            <Footer />
-                        </WeatherProvider>
+                        </ClientLayout>
                     </div>
                 </div>
                 <SpeedInsights />
