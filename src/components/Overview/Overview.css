@@ -1,18 +1,31 @@
-.weather-gradient-card {
-    border-radius: 40px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-    padding: 2.5rem 2rem;
-    margin: 10px;
+:root {
+    --gradient-animation-duration: 30s;
+    --card-shadow-color: rgba(31, 38, 135, 0.18);
+    --card-max-width: 850px;
+    --card-border-radius: 40px;
+}
 
+.weather-gradient-card {
+    /* Layout */
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 850px;
+    max-width: var(--card-max-width);
     position: relative;
+
+    /* Spacing */
+    padding: 2.5rem 2rem;
+    margin: 10px;
+
+    /* Visual */
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 8px 32px 0 var(--card-shadow-color);
     overflow: hidden;
     z-index: 1;
-    background-size: 400% 400% !important;
-    animation: gradientAnimation 30s ease infinite;
+
+    /* Gradient animation */
+    background-size: 400% 400%;
+    animation: gradientAnimation var(--gradient-animation-duration) ease infinite;
 }
 
 .weather-gradient-card::before {
@@ -21,7 +34,7 @@
     inset: 0;
     background: inherit;
     z-index: -1;
-    animation: gradientAnimation 30s ease-in-out infinite alternate;
+    animation: gradientAnimation var(--gradient-animation-duration) ease-in-out infinite alternate;
 }
 
 @keyframes gradientAnimation {
@@ -44,25 +57,29 @@
     }
 }
 
+/* Location Controls */
 .location-controls {
+    --controls-spacing: 24px;
+    --controls-z-index: 10;
+
     display: flex;
     justify-content: center;
-    margin-bottom: 24px;
+    margin: 40px 0 var(--controls-spacing);
     position: relative;
-    z-index: 10;
-    margin-top: 40px;
+    z-index: var(--controls-z-index);
 }
 
 .location-controls__button {
     position: relative;
-    z-index: 11;
+    z-index: calc(var(--controls-z-index) + 1);
 }
 
-.location-title-wrapper {
+.location-controls__title-wrapper {
     text-align: center;
     margin-bottom: 32px;
 }
 
+/* Weather Card Gradient */
 .weather-gradient-card {
     background-image: var(--weather-gradient);
 }
@@ -76,44 +93,59 @@
     flex-direction: row;
 }
 
-.location-toggle-btn {
-    background: #f3f6fa;
-    color: #1a5fa0;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 0.6rem 1.6rem;
-    box-shadow: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    outline: none;
-
-    /* Ensure button is always tabbable */
+/* Location Toggle Button */
+:root {
+    --btn-primary-color: #1a5fa0;
+    --btn-bg-color: #f3f6fa;
+    --btn-hover-shadow: rgba(31, 38, 135, 0.15);
+    --btn-focus-shadow: #43cea233;
+    --btn-border-radius: 20px;
+    --btn-transition-duration: 0.2s;
 }
 
+.location-toggle-btn {
+    /* Typography */
+    font-weight: 600;
+    font-size: 1rem;
+
+    /* Colors */
+    background: var(--btn-bg-color);
+    color: var(--btn-primary-color);
+
+    /* Layout */
+    padding: 0.6rem 1.6rem;
+    border: none;
+    border-radius: var(--btn-border-radius);
+
+    /* Interaction */
+    cursor: pointer;
+    transition: all var(--btn-transition-duration);
+    outline: none;
+}
+
+/* Accessibility */
 .location-toggle-btn[tabindex='-1'] {
     outline: none !important;
     pointer-events: none;
 }
 
 .location-toggle-btn:focus {
-    outline: 2px solid #1a5fa0;
+    outline: 2px solid var(--btn-primary-color);
     outline-offset: 2px;
-    box-shadow: 0 0 0 3px #43cea233;
+    box-shadow: 0 0 0 3px var(--btn-focus-shadow);
 }
 
 .location-toggle-btn[aria-expanded='true'] {
-    outline: 2px solid #1a5fa0;
-    background: #1a5fa0;
+    outline: 2px solid var(--btn-primary-color);
+    background: var(--btn-primary-color);
     color: #fff;
 }
 
 .location-toggle-btn:hover,
 .location-toggle-btn:active {
-    background: #1a5fa0;
+    background: var(--btn-primary-color);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(31, 38, 135, 0.15);
+    box-shadow: 0 4px 12px var(--btn-hover-shadow);
 }
 
 .location-switcher-flydown {
