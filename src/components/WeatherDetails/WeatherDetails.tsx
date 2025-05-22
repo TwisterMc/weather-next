@@ -38,7 +38,7 @@ export default function WeatherDetails() {
             unit: 'UV',
             color: '#FF9500',
             icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className={styles.metricIcon} style={{ fill: '#FF9500' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className={styles.metricIcon} style={{ fill: '#FF9500' }} aria-hidden="true">
                     <path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391l-19.9 107.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121l19.9-107.9c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1l90.3-62.3c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z" />
                 </svg>
             )
@@ -107,7 +107,7 @@ export default function WeatherDetails() {
             color: '#5856D6',
             icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className={styles.metricIcon} style={{ fill: '#5856D6' }}>
-                    <path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0h1.8c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zm0-448c-26.5 0-48 21.5-48 48v164.5c0 17.3-7.1 31.9-15.3 42.5C118.2 332.6 112 349.5 112 368c0 44.2 35.8 80 80 80s80-35.8 80-80c0-18.5-6.2-35.4-16.7-48.9c-8.2-10.6-15.3-25.2-15.3-42.5V112c0-26.5-21.5-48-48-48z"/>
+                    <path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0h1.8c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zm0-448c-26.5 0-48 21.5-48 48v164.5c0 17.3-7.1 31.9-15.3 42.5C118.2 332.6 112 349.5 112 368c0 44.2 35.8 80 80 80s80-35.8 80-80c0-18.5-6.2-35.4-16.7-48.9c-8.2-10.6-15.3-25.2-15.3-42.5V112c0-26.5-21.5-48-48-48z" />
                 </svg>
             )
         },
@@ -181,15 +181,18 @@ export default function WeatherDetails() {
             {/* Weather Detail Tiles */}
             {weatherTiles.map((item) => (
                 <section key={item.label} className={styles.tile}>
-                    <div className={styles.label}>{item.label}</div>
+                    {/* Place icon first in DOM for background */}
                     {item.icon}
-                    <div
-                        className={item.customStyle ? item.className : styles.value}
-                        style={{ color: item.color }}
-                    >
-                        {item.value}
+                    <div className={styles.content}>
+                        <div className={styles.label}>{item.label}</div>
+                        <div
+                            className={item.customStyle ? item.className : styles.value}
+                            style={{ color: item.color }}
+                        >
+                            {item.value}
+                        </div>
+                        <div className={styles.unit}>{item.unit}</div>
                     </div>
-                    <div className={styles.unit}>{item.unit}</div>
                 </section>
             ))}
 
