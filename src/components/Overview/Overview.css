@@ -180,7 +180,7 @@
     }
 }
 
-.location-toggle-btn[aria-expanded='true']+.location-switcher-flydown {
+.location-toggle-btn[aria-expanded='true'] + .location-switcher-flydown {
     opacity: 1;
     pointer-events: auto;
     transform: translate(-50%, 0) scale(1);

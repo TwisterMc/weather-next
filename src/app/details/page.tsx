@@ -1,5 +1,4 @@
-"use client";
-import React from 'react';
+'use client';
 
 import styles from './details.module.css';
 import WeatherDetails from '@/components/WeatherDetails/WeatherDetails';
@@ -11,4 +10,3 @@ export default function DetailsPage() {
         </main>
     );
 }
-

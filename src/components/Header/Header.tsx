@@ -55,10 +55,7 @@ export default function Header() {
                             role="presentation"
                         />
                         <div className={styles.locationSwitcher}>
-                            <LocationSwitcher
-                                show={true}
-                                onClose={() => setShowLocationForm(false)}
-                            />
+                            <LocationSwitcher show={true} onClose={() => setShowLocationForm(false)} />
                         </div>
                     </div>
                 )}

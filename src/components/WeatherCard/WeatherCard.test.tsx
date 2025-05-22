@@ -53,9 +53,7 @@ const mockWeatherContext = {
 };
 
 function renderWithMockContext(ui: React.ReactElement) {
-    return render(
-        <WeatherContext.Provider value={mockWeatherContext}>{ui}</WeatherContext.Provider>
-    );
+    return render(<WeatherContext.Provider value={mockWeatherContext}>{ui}</WeatherContext.Provider>);
 }
 
 describe('WeatherCard', () => {
@@ -67,18 +65,19 @@ describe('WeatherCard', () => {
     });
 
     it('shows loading animation when loading', () => {
-        renderWithMockContext(
-            <WeatherCard {...requiredProps} isFetchingLocation={true} />
-        );
+        renderWithMockContext(<WeatherCard {...requiredProps} isFetchingLocation={true} />);
         expect(screen.getByText('Fetching location...')).toBeInTheDocument();
         expect(screen.getAllByTestId('weather-card-dot').length).toBe(3);
-    }); it('updates on page title when location changes', () => {
+    });
+    it('updates on page title when location changes', () => {
         const newLocation = 'Los Angeles, CA';
         // Render a wrapper with an .app-title element and WeatherCard
         render(
             <div>
                 <h1 className="app-title">{newLocation}</h1>
-                <WeatherContext.Provider value={{ ...mockWeatherContext, displayLocation: newLocation, uvIndex: 0, sunrise: '', sunset: '' }}>
+                <WeatherContext.Provider
+                    value={{ ...mockWeatherContext, displayLocation: newLocation, uvIndex: 0, sunrise: '', sunset: '' }}
+                >
                     <WeatherCard {...requiredProps} />
                 </WeatherContext.Provider>
             </div>
@@ -103,7 +102,7 @@ describe('WeatherCard', () => {
             humidity: null,
             dewPoint: null,
             visibility: null,
-            pressure: null
+            pressure: null,
         };
 
         render(
@@ -124,7 +123,7 @@ describe('WeatherCard', () => {
             humidity: null,
             dewPoint: null,
             visibility: null,
-            pressure: null
+            pressure: null,
         };
         render(
             <WeatherContext.Provider value={contextWithNulls}>

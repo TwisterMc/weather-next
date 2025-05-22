@@ -127,42 +127,42 @@
 
 /* Value colors */
 .tile:nth-of-type(3) .value {
-    color: #FF9500;
+    color: #ff9500;
 }
 
 /* UV Index */
 .tile:nth-of-type(4) .value {
-    color: #007AFF;
+    color: #007aff;
 }
 
 /* Feels Like */
 .tile:nth-of-type(5) .value {
-    color: #32ADE6;
+    color: #32ade6;
 }
 
 /* Wind Speed */
 .tile:nth-of-type(6) .value {
-    color: #32ADE6;
+    color: #32ade6;
 }
 
 /* Precipitation */
 .tile:nth-of-type(7) .value {
-    color: #007AFF;
+    color: #007aff;
 }
 
 /* Relative Humidity */
 .tile:nth-of-type(7) .value {
-    color: #5856D6;
+    color: #5856d6;
 }
 
 /* Dew Point */
 .tile:nth-of-type(8) .value {
-    color: #34C759;
+    color: #34c759;
 }
 
 /* Visibility */
 .tile:nth-of-type(9) .value {
-    color: #34C759;
+    color: #34c759;
 }
 
 /* Surface Pressure */
@@ -304,7 +304,7 @@
 }
 
 .toggleButton:focus {
-    outline: 2px solid #007AFF;
+    outline: 2px solid #007aff;
     outline-offset: 2px;
     box-shadow: 0 0 0 2px #e6f7ff;
     z-index: 1;
@@ -317,7 +317,7 @@
 
 .metricActive {
     background: #e6f7ff;
-    border-color: #007AFF;
+    border-color: #007aff;
 }
 
 /* Responsive Grid Layout */
@@ -359,7 +359,6 @@
 
 /* Desktop Layout */
 @media (min-width: 1025px) {
-
     .locationTile,
     .conditionsTile {
         grid-column: span 2;
@@ -401,29 +400,29 @@
 
     /* Dark mode color adjustments */
     .tile:nth-of-type(3) .value {
-        color: #FFB340;
+        color: #ffb340;
     }
 
     /* Temperature */
     .tile:nth-of-type(4) .value {
-        color: #409CFF;
+        color: #409cff;
     }
 
     /* UV Index */
     .tile:nth-of-type(5) .value,
     .tile:nth-of-type(6) .value {
-        color: #40B8FF;
+        color: #40b8ff;
     }
 
     /* Feels Like & Wind Speed */
     .tile:nth-of-type(7) .value,
     .tile:nth-of-type(8) .value {
-        color: #6E6AFF;
+        color: #6e6aff;
     }
 
     /* Humidity & Dew Point */
     .tile:nth-of-type(9) .value {
-        color: #40D463;
+        color: #40d463;
     }
 
     /* Visibility & Pressure */

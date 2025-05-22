@@ -6,14 +6,7 @@ import WeatherCard from '@/components/WeatherCard/WeatherCard';
 import { useWeather } from '@/context/WeatherContext';
 
 export default function Overview() {
-    const {
-        temperature,
-        loading,
-        latitude,
-        longitude,
-        refreshWeatherData,
-        isFetchingLocation,
-    } = useWeather();
+    const { temperature, loading, latitude, longitude, refreshWeatherData, isFetchingLocation } = useWeather();
 
     useEffect(() => {
         refreshWeatherData();
