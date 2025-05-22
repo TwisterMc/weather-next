@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Types for location input and weather map
 export interface LocationInput {
     city?: string;
