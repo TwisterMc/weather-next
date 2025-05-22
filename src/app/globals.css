@@ -49,14 +49,16 @@ body {
 }
 
 .app-root {
-    background: var(--color-white);
     min-height: 100vh;
     display: block;
-    padding: 2rem 0;
+    margin: 0;
 }
 
 .app-container {
     margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .app-title {
