@@ -1,63 +1,193 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: clamp(1rem, 1.5vw, 1.5rem);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1.2rem, 2vw, 2rem);
     margin: 0 auto;
+    grid-auto-flow: dense;
+    grid-auto-rows: auto;
 }
 
 .tile {
     background: #ffffff;
-    border-radius: 24px;
-    padding: clamp(1rem, 1.5vw, 1.5rem);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 32px;
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: clamp(120px, 20vh, 190px);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: clamp(140px, 22vh, 220px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    break-inside: avoid;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .tile:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.tile:hover::before {
+    opacity: 1;
 }
 
 .temperatureTile {
     grid-column: span 2;
     grid-row: span 2;
-    padding: clamp(1.5rem, 2vw, 2rem);
-    min-height: 280px;
+    padding: clamp(2rem, 3vw, 3rem);
+    min-height: 320px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.temperatureValue {
-    font-size: clamp(64px, 8vw, 96px);
-    font-weight: 600;
+.temperatureTile::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at center, var(--color-primary-light) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+    transform: translate(30%, 30%);
+}
+
+.temperatureTile .temperatureValue {
+    font-size: clamp(80px, 10vw, 120px);
+    font-weight: 700;
     margin: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the Celsius temperature tile */
+.tile:not(.temperatureTile) .temperatureValue {
+    font-size: clamp(48px, 6vw, 64px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .temperatureLabel {
-    font-size: clamp(18px, 2vw, 24px);
+    font-size: clamp(20px, 2.5vw, 28px);
     color: #86868b;
-    margin: 0.5rem 0 0;
+    margin: 1rem 0 0;
+    font-weight: 500;
+    letter-spacing: -0.02em;
 }
 
 .label {
-    font-size: clamp(14px, 1.5vw, 16px);
+    font-size: clamp(15px, 1.6vw, 18px);
     color: #86868b;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
 }
 
 .value {
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 600;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
     text-align: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1.2;
+}
+
+.tile:nth-of-type(3) .value {
+    color: #FF9500;
+}
+
+/* UV Index */
+.tile:nth-of-type(4) .value {
+    color: #007AFF;
+}
+
+/* Feels Like */
+.tile:nth-of-type(5) .value {
+    color: #32ADE6;
+}
+
+/* Wind Speed */
+.tile:nth-of-type(6) .value {
+    color: #32ADE6;
+}
+
+/* Precipitation */
+.tile:nth-of-type(7) .value {
+    color: #007AFF;
+}
+
+/* Temperature (C) */
+.tile:nth-of-type(7) {
+    grid-column: span 2;
+    min-height: calc(clamp(140px, 22vh, 220px) * 1.2);
+}
+
+.tile:nth-of-type(7) .value {
+    color: #5856D6;
+    font-size: calc(clamp(32px, 5vw, 48px) * 1.2);
+}
+
+/* Relative Humidity */
+.tile:nth-of-type(8) .value {
+    color: #5856D6;
+}
+
+/* Dew Point */
+.tile:nth-of-type(9) .value {
+    color: #34C759;
+}
+
+/* Visibility */
+.tile:nth-of-type(10) .value {
+    color: #34C759;
+}
+
+/* Surface Pressure */
+
+.tile:hover .value {
+    transform: scale(1.1);
 }
 
 .unit {
-    font-size: clamp(12px, 1.2vw, 14px);
+    font-size: clamp(14px, 1.4vw, 16px);
     color: #86868b;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.locationIcon {
+    width: 5rem;
+    height: 5rem;
+    flex-shrink: 0;
+    margin-right: 0.5rem;
 }
 
 .locationValue {
@@ -73,57 +203,185 @@
 }
 
 .coordinatesValue {
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 600;
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
     text-align: center;
-    line-height: 1.2;
+    line-height: 1.3;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .locationTile {
     grid-column: 1 / -1;
-    min-height: clamp(120px, 20vh, 190px);
+    min-height: clamp(140px, 22vh, 220px);
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
 }
 
 .conditionsTile {
     grid-column: 1 / -1;
-    min-height: clamp(120px, 20vh, 190px);
+    min-height: clamp(140px, 22vh, 220px);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
 }
 
 .conditionsValue {
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 600;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     justify-content: center;
     color: #1d1d1f;
+    line-height: 1.2;
 }
 
 .conditionsIcon {
-    font-size: clamp(32px, 5vw, 48px);
+    font-size: clamp(40px, 6vw, 56px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.metricIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0.5rem 0;
+    transition: transform 0.3s ease;
+}
+
+.tile:hover .metricIcon {
+    transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
     .temperatureTile {
-        grid-column: span 1;
-        grid-row: span 1;
-        min-height: 200px;
+        grid-column: 1 / -1;
+        grid-row: auto;
+        min-height: 260px;
     }
 
     .temperatureValue {
-        font-size: clamp(48px, 6vw, 64px);
+        font-size: clamp(64px, 8vw, 80px);
+    }
+
+    .locationTile,
+    .conditionsTile {
+        grid-column: 1 / -1;
+    }
+
+    .tile:nth-of-type(7) {
+        grid-column: 1 / -1;
+    }
+
+    .value {
+        font-size: clamp(28px, 4vw, 36px);
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) and (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (min-width: 1025px) {
     .locationTile {
         grid-column: span 2;
     }
 
     .conditionsTile {
         grid-column: span 2;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .tile {
+        background: #1a1a1a;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .tile:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .temperatureTile,
+    .locationTile,
+    .conditionsTile {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .temperatureValue {
+        filter: brightness(1.2) saturate(1.1);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .label {
+        color: #a0a0a0;
+    }
+
+    .unit {
+        color: #a0a0a0;
+    }
+
+    .temperatureLabel {
+        color: #a0a0a0;
+    }
+
+    .conditionsValue {
+        color: #ffffff;
+    }
+
+    /* Adjust colors for better contrast in dark mode */
+    .tile:nth-of-type(3) .value {
+        color: #FFB340;
+    }
+
+    /* UV Index - brighter */
+    .tile:nth-of-type(4) .value {
+        color: #409CFF;
+    }
+
+    /* Feels Like - brighter */
+    .tile:nth-of-type(5) .value {
+        color: #40B8FF;
+    }
+
+    /* Wind Speed - brighter */
+    .tile:nth-of-type(6) .value {
+        color: #40B8FF;
+    }
+
+    /* Precipitation - brighter */
+    .tile:nth-of-type(7) .value {
+        color: #409CFF;
+    }
+
+    /* Temperature (C) - brighter */
+    .tile:nth-of-type(7) .value {
+        color: #6E6AFF;
+    }
+
+    /* Relative Humidity - brighter */
+    .tile:nth-of-type(8) .value {
+        color: #6E6AFF;
+    }
+
+    /* Dew Point - brighter */
+    .tile:nth-of-type(9) .value {
+        color: #40D463;
+    }
+
+    /* Visibility - brighter */
+    .tile:nth-of-type(10) .value {
+        color: #40D463;
+    }
+
+    /* Surface Pressure - brighter */
+    .metricIcon {
+        opacity: 0.9;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
 }

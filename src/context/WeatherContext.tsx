@@ -31,6 +31,7 @@ interface WeatherContextType {
     usedMyLocation: boolean;
     showLocationForm: boolean;
     lastUpdated: string | null;
+    weatherCode: number | null;
     setLatitude: (lat: number) => void;
     setLongitude: (lon: number) => void;
     setCity: (city: string) => void;
@@ -79,6 +80,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [usedMyLocation, setUsedMyLocation] = useState(false);
     const [showLocationForm, setShowLocationForm] = useState(false);
     const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+    const [weatherCode, setWeatherCode] = useState<number | null>(null);
 
     // Effect to save location to localStorage whenever it changes
     useEffect(() => {
@@ -262,6 +264,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                     setSunset(null);
                 }
                 const weatherCode = data.current?.weather_code;
+                setWeatherCode(weatherCode ?? null);
                 const weather = weatherMap[weatherCode] || { icon: '❓', text: 'Unknown' };
                 setIconUrl(weather.icon);
                 setCondition(weather.text);
@@ -308,6 +311,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 usedMyLocation,
                 showLocationForm,
                 lastUpdated,
+                weatherCode,
                 setLatitude,
                 setLongitude,
                 setCity,
