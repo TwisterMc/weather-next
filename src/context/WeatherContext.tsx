@@ -13,6 +13,13 @@ interface WeatherContextType {
     windSpeed: number | null;
     feelsLike: number | null;
     precipChance: number | null;
+    uvIndex: number | null;
+    humidity: number | null;
+    dewPoint: number | null;
+    visibility: number | null;
+    pressure: number | null;
+    sunrise: string | null;
+    sunset: string | null;
     latitude: number | null;
     longitude: number | null;
     city: string;
@@ -54,6 +61,13 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [windSpeed, setWindSpeed] = useState<number | null>(null);
     const [feelsLike, setFeelsLike] = useState<number | null>(null);
     const [precipChance, setPrecipChance] = useState<number | null>(null);
+    const [uvIndex, setUvIndex] = useState<number | null>(null);
+    const [humidity, setHumidity] = useState<number | null>(null);
+    const [dewPoint, setDewPoint] = useState<number | null>(null);
+    const [visibility, setVisibility] = useState<number | null>(null);
+    const [pressure, setPressure] = useState<number | null>(null);
+    const [sunrise, setSunrise] = useState<string | null>(null);
+    const [sunset, setSunset] = useState<string | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
     const [city, setCity] = useState('');
@@ -212,10 +226,11 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
         }
 
         setLoading(true);
-        fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation_probability&temperature_unit=fahrenheit&timezone=America%2FChicago`
-        )
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation_probability,uv_index,relative_humidity_2m,dew_point_2m,visibility,surface_pressure&daily=sunrise,sunset&temperature_unit=fahrenheit&timezone=America%2FChicago`;
+        console.log('Fetching weather data:', { url, latitude, longitude });
+        fetch(url)
             .then((response) => {
+                console.log('Weather API response status:', response.status);
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
             })
@@ -230,6 +245,22 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 setWindSpeed(data.current?.wind_speed_10m ?? null);
                 setFeelsLike(data.current?.apparent_temperature ?? null);
                 setPrecipChance(data.current?.precipitation_probability ?? null);
+                setUvIndex(data.current?.uv_index ?? null);
+                setHumidity(data.current?.relative_humidity_2m ?? null);
+                setDewPoint(data.current?.dew_point_2m ?? null);
+                setVisibility(data.current?.visibility ?? null);
+                setPressure(data.current?.surface_pressure ?? null);
+                // Extract today's sunrise/sunset from daily arrays
+                if (data.daily?.sunrise && data.daily.sunrise.length > 0) {
+                    setSunrise(data.daily.sunrise[0]);
+                } else {
+                    setSunrise(null);
+                }
+                if (data.daily?.sunset && data.daily.sunset.length > 0) {
+                    setSunset(data.daily.sunset[0]);
+                } else {
+                    setSunset(null);
+                }
                 const weatherCode = data.current?.weather_code;
                 const weather = weatherMap[weatherCode] || { icon: '❓', text: 'Unknown' };
                 setIconUrl(weather.icon);
@@ -259,6 +290,13 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
                 windSpeed,
                 feelsLike,
                 precipChance,
+                uvIndex,
+                humidity,
+                dewPoint,
+                visibility,
+                pressure,
+                sunrise,
+                sunset,
                 latitude,
                 longitude,
                 city,
