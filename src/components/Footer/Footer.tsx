@@ -21,7 +21,7 @@ export default function Footer() {
             <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="app-footer__link">
                 Open-Meteo
             </a>
-            .
+            . Built by <a href="https://www.twistermc.com" target="_blank" rel="noopener noreferrer" className="app-footer__link">TwisterMc</a> at <a href="https://nerdery.com" target="_blank" rel="noopener noreferrer" className="app-footer__link">Nerdery</a>.
         </footer>
     );
 }
