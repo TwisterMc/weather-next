@@ -3,6 +3,7 @@ import './globals.css';
 import Footer from '../components/Footer/Footer';
 import { WeatherProvider } from '@/context/WeatherContext';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
     title: 'Weather App',
@@ -31,6 +32,7 @@ export default function RootLayout({
                     </div>
                 </div>
                 <SpeedInsights />
+                <Analytics />
             </body>
         </html>
     );
