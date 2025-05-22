@@ -157,7 +157,6 @@ export default function WeatherDetails() {
                     <span className={styles.conditionsIcon}>{weather.iconUrl}</span>
                     <span>{weather.condition || '--'}</span>
                 </div>
-                <div className={styles.unit}>Code: {weather.weatherCode ?? '--'}</div>
             </section>
 
             {/* Location - Wide Tile */}

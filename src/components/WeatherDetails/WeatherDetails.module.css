@@ -248,20 +248,19 @@
 }
 
 .conditionsValue {
-    font-size: clamp(20px, 2.5vw, 28px);
-    font-weight: 500;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    text-align: center;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    color: #1d1d1f;
-    line-height: 1.2;
-    position: relative;
-    z-index: 1;
+    gap: 0.5rem;
+    word-break: break-word;
+    max-width: 100%;
+    padding: 0 1rem;
 }
 
 .conditionsIcon {
-    font-size: clamp(40px, 6vw, 56px);
+    font-size: clamp(140px, 6vw, 56px);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     position: relative;
     z-index: 1;
@@ -356,10 +355,6 @@
     }
 
     .label {
-        color: #a0a0a0;
-    }
-
-    .unit {
         color: #a0a0a0;
     }
 
