@@ -150,29 +150,18 @@
     color: #007AFF;
 }
 
-/* Temperature (C) */
-.tile:nth-of-type(7) {
-    grid-column: span 2;
-    min-height: calc(clamp(140px, 22vh, 220px) * 1.2);
-}
-
-.tile:nth-of-type(7) .value {
-    color: #5856D6;
-    font-size: calc(clamp(32px, 5vw, 48px) * 1.2);
-}
-
 /* Relative Humidity */
-.tile:nth-of-type(8) .value {
+.tile:nth-of-type(7) .value {
     color: #5856D6;
 }
 
 /* Dew Point */
-.tile:nth-of-type(9) .value {
+.tile:nth-of-type(8) .value {
     color: #34C759;
 }
 
 /* Visibility */
-.tile:nth-of-type(10) .value {
+.tile:nth-of-type(9) .value {
     color: #34C759;
 }
 
@@ -401,13 +390,12 @@
         color: #6E6AFF;
     }
 
-    /* Temperature (C) & Humidity */
-    .tile:nth-of-type(9) .value,
-    .tile:nth-of-type(10) .value {
+    /* Humidity & Dew Point */
+    .tile:nth-of-type(9) .value {
         color: #40D463;
     }
 
-    /* Dew Point & Visibility */
+    /* Visibility & Pressure */
 
     /* Enhanced icon visibility in dark mode */
     .metricIcon {
