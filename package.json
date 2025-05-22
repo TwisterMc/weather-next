@@ -2,6 +2,7 @@
     "name": "weather-next",
     "version": "0.1.0",
     "private": true,
+    "prepare": "husky install",
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
