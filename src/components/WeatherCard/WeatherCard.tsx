@@ -45,9 +45,9 @@ export default function WeatherCard({
                 <h2 className="weather-card__title">{title}</h2>
                 <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
                     <div className="weather-card__spinner">
-                        <div className="weather-card__dot"></div>
-                        <div className="weather-card__dot"></div>
-                        <div className="weather-card__dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
                     </div>
                     <p className="weather-card__loading">Fetching location...</p>
                 </div>
@@ -62,9 +62,9 @@ export default function WeatherCard({
             {loading && (
                 <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
                     <div className="weather-card__spinner">
-                        <div className="weather-card__dot"></div>
-                        <div className="weather-card__dot"></div>
-                        <div className="weather-card__dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
                     </div>
                     <p className="weather-card__loading">Loading...</p>
                 </div>

@@ -36,7 +36,7 @@ interface WeatherContextType {
     refreshWeatherData: () => void;
 }
 
-const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
+export const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
 
 export function useWeather() {
     const ctx = useContext(WeatherContext);
