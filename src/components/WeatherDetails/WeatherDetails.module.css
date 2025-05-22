@@ -78,6 +78,8 @@
     margin: 0;
     line-height: 1;
     transition: color 0.3s ease;
+    position: relative;
+    z-index: 2;
 }
 
 .temperatureTile .temperatureValue {
@@ -97,6 +99,8 @@
     margin: 1rem 0 0;
     font-weight: 500;
     letter-spacing: -0.02em;
+    position: relative;
+    z-index: 2;
 }
 
 /* Common z-indexed elements */
@@ -105,6 +109,7 @@
 .unit {
     position: relative;
     z-index: 1;
+    text-shadow: 2px 2px 4px #0000001a;
 }
 
 .label {
@@ -187,16 +192,24 @@
 /* Background icon for tiles */
 .metricIcon {
     position: absolute;
-    left: -15%;
+    left: -7%;
     bottom: -5%;
-    width: 80%;
     height: 80%;
     opacity: 0.15;
     transform: rotate(-15deg);
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
+    z-index: 0;
 }
+
+/* .temperatureTile .metricIcon {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    opacity: 0.08;
+    transform: rotate(-5deg) scale(1.2);
+} */
 
 .tile:hover .metricIcon {
     opacity: 0.35;
