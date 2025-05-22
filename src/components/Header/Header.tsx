@@ -21,28 +21,48 @@ export default function Header() {
         document.title = title;
     }, [title]);
 
+    // Close modal when escape key is pressed
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && showLocationForm) {
+                setShowLocationForm(false);
+            }
+        };
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [showLocationForm, setShowLocationForm]);
+
     return (
-        <header className={styles.header}>
-            <div className={styles.titleRow}>
-                <h1 className={styles.title}>{title}</h1>
-                <button
-                    type="button"
-                    className={styles.locationToggle}
-                    onClick={() => setShowLocationForm(!showLocationForm)}
-                    aria-expanded={showLocationForm}
-                    aria-controls="location-switcher-form"
-                >
-                    {showLocationForm ? 'Hide Location' : 'Change Location'}
-                </button>
-            </div>
-            {showLocationForm && (
-                <div className={styles.locationSwitcher}>
-                    <LocationSwitcher
-                        show={true}
-                        onClose={() => setShowLocationForm(false)}
-                    />
+        <>
+            <header className={styles.header}>
+                <div className={styles.titleRow}>
+                    <h1 className={styles.title}>{title}</h1>
+                    <button
+                        type="button"
+                        className={styles.locationToggle}
+                        onClick={() => setShowLocationForm(!showLocationForm)}
+                        aria-expanded={showLocationForm}
+                        aria-controls="location-switcher-form"
+                    >
+                        {'Change Location'}
+                    </button>
                 </div>
-            )}
-        </header>
+                {showLocationForm && (
+                    <div className={styles.locationSwitcherWrapper}>
+                        <div
+                            className={styles.overlay}
+                            onClick={() => setShowLocationForm(false)}
+                            role="presentation"
+                        />
+                        <div className={styles.locationSwitcher}>
+                            <LocationSwitcher
+                                show={true}
+                                onClose={() => setShowLocationForm(false)}
+                            />
+                        </div>
+                    </div>
+                )}
+            </header>
+        </>
     );
 }
