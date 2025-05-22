@@ -9,7 +9,7 @@ import LocationSwitcher from '@/components/LocationSwitcher/LocationSwitcher';
 export default function Header() {
     const { city, state, showLocationForm, setShowLocationForm } = useWeather();
     const pathname = usePathname();
-    const isDetailsPage = pathname === '/details';
+    const isDetailsPage = pathname === '/details/';
 
     // Construct the title with consistent formatting
     const pageTitle = isDetailsPage ? 'Weather Details' : 'Weather Dashboard';
