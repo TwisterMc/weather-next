@@ -2,6 +2,7 @@ import React from 'react';
 import './LocationSwitcher.css';
 import { getLatLonFromLocation, getLocationFromLatLon } from '@/utils/locationUtils';
 import { useWeather } from '@/context/WeatherContext';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 type LocationSwitcherProps = {
     show: boolean;
@@ -22,6 +23,21 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
     } = useWeather();
 
     const [searchInput, setSearchInput] = React.useState('');
+    const focusTrapRef = useFocusTrap<HTMLFormElement>(show);
+
+    // Handle escape key to close modal
+    React.useEffect(() => {
+        if (!show) return;
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && onClose) {
+                onClose();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [show, onClose]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -118,9 +134,16 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
     if (!show) return null;
 
     return (
-        <form id="location-switcher-form" onSubmit={handleSubmit} className="location-form">
+        <form
+            id="location-switcher-form"
+            onSubmit={handleSubmit}
+            className="location-form"
+            ref={focusTrapRef}
+            role="dialog"
+            aria-labelledby="location-switcher-title"
+        >
             <div className="location_switcher__header">
-                <h2 className="location_switcher__title">Change Location</h2>
+                <h2 className="location_switcher__title" id="location-switcher-title">Change Location</h2>
                 <button
                     type="button"
                     className="location_switcher__close"
