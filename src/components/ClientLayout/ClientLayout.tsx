@@ -28,7 +28,9 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
                 Skip to main content
             </a>
             <Header />
-            <main id="main-content" tabIndex={-1}>{children}</main>
+            <main id="main-content" tabIndex={-1}>
+                {children}
+            </main>
             <Footer />
         </>
     );

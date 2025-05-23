@@ -11,4 +11,4 @@ export function usePageFocus() {
             mainContent.focus();
         }
     }, [pathname]); // Re-run when the pathname changes
-} 
+}
