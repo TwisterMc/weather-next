@@ -4,9 +4,11 @@ import React, { useEffect } from 'react';
 import { useWeather, WeatherProvider } from '@/context/WeatherContext';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
+import { usePageFocus } from '@/hooks/usePageFocus';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { refreshWeatherData } = useWeather();
+    usePageFocus();
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
@@ -26,7 +28,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
                 Skip to main content
             </a>
             <Header />
-            <main id="main-content">{children}</main>
+            <main id="main-content" tabIndex={-1}>{children}</main>
             <Footer />
         </>
     );
