@@ -47,4 +47,4 @@ export function useFocusTrap<T extends HTMLElement>(isActive: boolean) {
     }, [isActive]);
 
     return ref;
-} 
+}

@@ -143,7 +143,9 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
             aria-labelledby="location-switcher-title"
         >
             <div className="location_switcher__header">
-                <h2 className="location_switcher__title" id="location-switcher-title">Change Location</h2>
+                <h2 className="location_switcher__title" id="location-switcher-title">
+                    Change Location
+                </h2>
                 <button
                     type="button"
                     className="location_switcher__close"
