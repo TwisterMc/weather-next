@@ -192,21 +192,21 @@ export default function WeatherDetails() {
         unitSystem === 'imperial'
             ? (weather.temperature ?? '--')
             : weather.temperatureC != null
-              ? typeof weather.temperatureC === 'string'
-                  ? Math.round(parseFloat(weather.temperatureC))
-                  : Math.round(weather.temperatureC)
-              : '--';
+                ? typeof weather.temperatureC === 'string'
+                    ? Math.round(parseFloat(weather.temperatureC))
+                    : Math.round(weather.temperatureC)
+                : '--';
     const displayTempUnit = unitSystem === 'imperial' ? 'Fahrenheit' : 'Celsius';
     const displayTempColor =
         unitSystem === 'imperial'
             ? getTemperatureColor(weather.temperature)
             : getTemperatureColor(
-                  typeof weather.temperatureC === 'string' ? parseFloat(weather.temperatureC) : weather.temperatureC,
-                  true
-              );
+                typeof weather.temperatureC === 'string' ? parseFloat(weather.temperatureC) : weather.temperatureC,
+                true
+            );
 
     return (
-        <div>
+        <div role="region" aria-label="Weather Details">
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
                 <button
                     onClick={handleToggle}
@@ -216,41 +216,45 @@ export default function WeatherDetails() {
                             : `${styles.toggleButton} ${styles.metricActive}`
                     }
                     aria-pressed={unitSystem === 'metric'}
-                    aria-label="Toggle units"
+                    aria-label={`Switch to ${unitSystem === 'imperial' ? 'metric' : 'imperial'} units`}
                 >
                     {unitSystem === 'imperial' ? 'Show Metric' : 'Show Imperial'}
                 </button>
             </div>
-            <div className={styles.grid}>
+            <div className={styles.grid} role="list">
                 {/* Temperature - Large Tile */}
-                <div className={`${styles.tile} ${styles.temperatureTile}`}>
-                    {/* Add thermometer icon for background */}
+                <div className={`${styles.tile} ${styles.temperatureTile}`} role="listitem">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 320 512"
                         className={styles.metricIcon}
                         style={{ fill: displayTempColor }}
+                        role="img"
+                        aria-hidden="true"
                     >
                         <path d="M160 64c-26.5 0-48 21.5-48 48V276.5c0 17.3-7.1 31.9-15.3 42.5C86.2 332.6 80 349.5 80 368c0 44.2 35.8 80 80 80s80-35.8 80-80c0-18.5-6.2-35.4-16.7-48.9c-8.2-10.6-15.3-25.2-15.3-42.5V112c0-26.5-21.5-48-48-48zM48 112C48 50.2 98.1 0 160 0s112 50.2 112 112V276.5c0 .1 .1 .3 .2 .6c.2 .6 .8 1.6 1.7 2.8c18.9 24.4 30.1 55 30.1 88.1c0 79.5-64.5 144-144 144S16 447.5 16 368c0-33.2 11.2-63.8 30.1-88.1c.9-1.2 1.5-2.2 1.7-2.8c.1-.3 .2-.5 .2-.6V112zM208 368c0 26.5-21.5 48-48 48s-48-21.5-48-48c0-20.9 13.4-38.7 32-45.3V144c0-8.8 7.2-16 16-16s16 7.2 16 16V322.7c18.6 6.6 32 24.4 32 45.3z" />
                     </svg>
-                    <div className={styles.label}>Current Temperature</div>
-                    <h2 className={styles.temperatureValue} style={{ color: displayTempColor }}>
+                    <div className={styles.label} id="temp-label">Current Temperature</div>
+                    <h2 className={styles.temperatureValue} style={{ color: displayTempColor }} aria-labelledby="temp-label">
                         {displayTemperature}°
                     </h2>
                     <p className={styles.temperatureLabel}>{displayTempUnit}</p>
                 </div>
 
                 {/* Current Conditions - Wide Tile */}
-                <section className={`${styles.tile} ${styles.conditionsTile}`}>
+                <section className={`${styles.tile} ${styles.conditionsTile}`} role="listitem" aria-label="Current Weather Conditions">
                     <div className={styles.label}>Current Conditions</div>
                     <div className={styles.conditionsValue}>
-                        <span className={styles.conditionsIcon}>{weather.iconUrl}</span>
+                        <span className={styles.conditionsIcon} aria-hidden="true">{weather.iconUrl}</span>
                         <span>{weather.condition || '--'}</span>
+                        {weather.weatherCode && (
+                            <span className="sr-only">Weather code: {weather.weatherCode}</span>
+                        )}
                     </div>
                 </section>
 
                 {/* Location - Wide Tile */}
-                <section className={`${styles.tile} ${styles.locationTile}`}>
+                <section className={`${styles.tile} ${styles.locationTile}`} role="listitem" aria-label="Current Location">
                     <div className={styles.label}>Location</div>
                     <div className={styles.locationValue}>
                         <svg
@@ -258,7 +262,7 @@ export default function WeatherDetails() {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 384 512"
                             aria-hidden="true"
-                            focusable="false"
+                            role="img"
                             style={{ fill: '#007AFF' }}
                         >
                             <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
@@ -271,12 +275,18 @@ export default function WeatherDetails() {
 
                 {/* Weather Detail Tiles */}
                 {weatherTiles.map((item) => (
-                    <section key={item.label} className={styles.tile}>
-                        {/* Place icon first in DOM for background */}
-                        {item.icon}
+                    <section key={item.label} className={styles.tile} role="listitem">
+                        {React.cloneElement(item.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
+                            'aria-hidden': true,
+                            role: 'img'
+                        })}
                         <div className={styles.content}>
-                            <div className={styles.label}>{item.label}</div>
-                            <div className={styles.value} style={{ color: item.color }}>
+                            <div className={styles.label} id={`${item.label.toLowerCase()}-label`}>{item.label}</div>
+                            <div
+                                className={styles.value}
+                                style={{ color: item.color }}
+                                aria-labelledby={`${item.label.toLowerCase()}-label`}
+                            >
                                 {item.value}
                             </div>
                             <div className={styles.unit}>{item.unit}</div>
@@ -285,13 +295,15 @@ export default function WeatherDetails() {
                 ))}
 
                 {/* Coordinates */}
-                <section className={styles.tile}>
+                <section className={styles.tile} role="listitem" aria-label="Location Coordinates">
                     <div className={styles.label}>Coordinates</div>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 512 512"
                         className={styles.metricIcon}
                         style={{ fill: '#007AFF' }}
+                        aria-hidden="true"
+                        role="img"
                     >
                         <path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z" />
                     </svg>
@@ -300,6 +312,11 @@ export default function WeatherDetails() {
                         <div>{weather.longitude ? `${weather.longitude.toFixed(4)}°W` : '--'}</div>
                     </div>
                 </section>
+            </div>
+
+            {/* Live Region for Updates */}
+            <div aria-live="polite" aria-atomic="true" className="sr-only">
+                {weather.loading ? 'Loading weather data...' : `Weather data last updated at ${weather.lastUpdated || 'unknown time'}`}
             </div>
         </div>
     );
