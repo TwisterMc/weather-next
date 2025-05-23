@@ -1,7 +1,7 @@
 'use client';
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { weatherMap, getLocationFromLatLon } from '@/utils/locationUtils';
+import { getLocationFromLatLon } from '@/utils/locationUtils';
+import { weatherMap } from '@/utils/weatherUtils';
 
 interface WeatherContextType {
     temperature: number | null;

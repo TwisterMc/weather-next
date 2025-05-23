@@ -8,7 +8,10 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\""
+        "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage --coverageReporters='text-summary'"
     },
     "dependencies": {
         "@vercel/analytics": "^1.5.0",

@@ -112,8 +112,8 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                         if (onClose) {
                             onClose();
                         }
-                    } catch (err) {
-                        console.error('Error getting location details:', err);
+                    } catch {
+                        setLocError('Failed to get location details. Please try entering your location manually.');
                         setIsFetchingLocation(false);
                         setUsedMyLocation(false);
                     }

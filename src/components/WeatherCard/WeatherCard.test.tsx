@@ -50,10 +50,13 @@ const mockWeatherContext = {
     dewPoint: null,
     visibility: null,
     pressure: null,
+    weatherCode: 0,
 };
 
 function renderWithMockContext(ui: React.ReactElement) {
-    return render(<WeatherContext.Provider value={mockWeatherContext}>{ui}</WeatherContext.Provider>);
+    return render(
+        <WeatherContext.Provider value={{ ...mockWeatherContext, weatherCode: 0 }}>{ui}</WeatherContext.Provider>
+    );
 }
 
 describe('WeatherCard', () => {
@@ -69,6 +72,7 @@ describe('WeatherCard', () => {
         expect(screen.getByText('Fetching location...')).toBeInTheDocument();
         expect(screen.getAllByTestId('weather-card-dot').length).toBe(3);
     });
+
     it('updates on page title when location changes', () => {
         const newLocation = 'Los Angeles, CA';
         // Render a wrapper with an .app-title element and WeatherCard
@@ -76,7 +80,14 @@ describe('WeatherCard', () => {
             <div>
                 <h1 className="app-title">{newLocation}</h1>
                 <WeatherContext.Provider
-                    value={{ ...mockWeatherContext, displayLocation: newLocation, uvIndex: 0, sunrise: '', sunset: '' }}
+                    value={{
+                        ...mockWeatherContext,
+                        displayLocation: newLocation,
+                        uvIndex: 0,
+                        sunrise: '',
+                        sunset: '',
+                        weatherCode: 0,
+                    }}
                 >
                     <WeatherCard {...requiredProps} />
                 </WeatherContext.Provider>
@@ -103,6 +114,7 @@ describe('WeatherCard', () => {
             dewPoint: null,
             visibility: null,
             pressure: null,
+            weatherCode: 3,
         };
 
         render(
@@ -124,6 +136,7 @@ describe('WeatherCard', () => {
             dewPoint: null,
             visibility: null,
             pressure: null,
+            weatherCode: 0,
         };
         render(
             <WeatherContext.Provider value={contextWithNulls}>
