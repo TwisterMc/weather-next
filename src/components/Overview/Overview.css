@@ -6,18 +6,18 @@
     --card-padding: 2.5rem 2rem;
     --card-margin-mobile: 10px;
     --card-margin-desktop: 0 auto 1rem auto;
-    
+
     /* Shadows and Effects */
     --card-shadow-color: rgba(31, 38, 135, 0.18);
     --card-shadow: 0 8px 32px 0 var(--card-shadow-color);
-    
+
     /* Animation */
     --gradient-animation-duration: 30s;
-    
+
     /* Controls */
     --controls-spacing: 24px;
     --controls-z-index: 10;
-    
+
     /* Button Styles */
     --btn-primary-color: #1a5fa0;
     --btn-bg-color: #f3f6fa;
@@ -38,13 +38,13 @@
     position: relative;
     padding: var(--card-padding);
     margin: var(--card-margin-mobile);
-    
+
     /* Visual */
     border-radius: var(--card-border-radius);
     box-shadow: var(--card-shadow);
     overflow: hidden;
     z-index: 1;
-    
+
     /* Gradient */
     background-size: 400% 400%;
     background-image: var(--weather-gradient);
@@ -95,15 +95,15 @@
     padding: var(--btn-padding);
     border: none;
     border-radius: var(--btn-border-radius);
-    
+
     /* Typography */
     font-weight: 600;
     font-size: 1rem;
-    
+
     /* Colors */
     background: var(--btn-bg-color);
     color: var(--btn-primary-color);
-    
+
     /* Interaction */
     cursor: pointer;
     transition: all var(--btn-transition-duration);
@@ -141,12 +141,12 @@
     top: -30px;
     left: 50%;
     transform: translate(-50%, -8px) scale(0.98);
-    
+
     /* Dimensions */
     max-width: 96%;
     min-width: 280px;
     width: 100%;
-    
+
     /* Visual */
     background: #fff;
     border-radius: 16px;
@@ -154,7 +154,7 @@
         0 8px 32px rgba(31, 38, 135, 0.18),
         0 2px 8px rgba(31, 38, 135, 0.08);
     padding: 0;
-    
+
     /* Interaction */
     z-index: 12;
     opacity: 0;
@@ -174,9 +174,15 @@
 
 /* Animations */
 @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Media Queries */
