@@ -1,10 +1,34 @@
+/* CSS Variables */
 :root {
-    --gradient-animation-duration: 30s;
-    --card-shadow-color: rgba(31, 38, 135, 0.18);
+    /* Card Properties */
     --card-max-width: 850px;
     --card-border-radius: 40px;
+    --card-padding: 2.5rem 2rem;
+    --card-margin-mobile: 10px;
+    --card-margin-desktop: 0 auto 1rem auto;
+    
+    /* Shadows and Effects */
+    --card-shadow-color: rgba(31, 38, 135, 0.18);
+    --card-shadow: 0 8px 32px 0 var(--card-shadow-color);
+    
+    /* Animation */
+    --gradient-animation-duration: 30s;
+    
+    /* Controls */
+    --controls-spacing: 24px;
+    --controls-z-index: 10;
+    
+    /* Button Styles */
+    --btn-primary-color: #1a5fa0;
+    --btn-bg-color: #f3f6fa;
+    --btn-hover-shadow: rgba(31, 38, 135, 0.15);
+    --btn-focus-shadow: #43cea233;
+    --btn-border-radius: 20px;
+    --btn-transition-duration: 0.2s;
+    --btn-padding: 0.6rem 1.6rem;
 }
 
+/* Weather Card Base */
 .weather-gradient-card {
     /* Layout */
     display: flex;
@@ -12,19 +36,18 @@
     align-items: center;
     max-width: var(--card-max-width);
     position: relative;
-
-    /* Spacing */
-    padding: 2.5rem 2rem;
-    margin: 10px;
-
+    padding: var(--card-padding);
+    margin: var(--card-margin-mobile);
+    
     /* Visual */
     border-radius: var(--card-border-radius);
-    box-shadow: 0 8px 32px 0 var(--card-shadow-color);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
     z-index: 1;
-
-    /* Gradient animation */
+    
+    /* Gradient */
     background-size: 400% 400%;
+    background-image: var(--weather-gradient);
     animation: gradientAnimation var(--gradient-animation-duration) ease infinite;
 }
 
@@ -37,31 +60,18 @@
     animation: gradientAnimation var(--gradient-animation-duration) ease-in-out infinite alternate;
 }
 
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-@media (min-width: 768px) {
-    .weather-gradient-card {
-        margin: 0 auto 1rem auto;
-    }
+/* Weather Cards Layout */
+.weather-cards-row {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    flex-direction: row;
 }
 
 /* Location Controls */
 .location-controls {
-    --controls-spacing: 24px;
-    --controls-z-index: 10;
-
     display: flex;
     justify-content: center;
     margin: 40px 0 var(--controls-spacing);
@@ -79,54 +89,25 @@
     margin-bottom: 32px;
 }
 
-/* Weather Card Gradient */
-.weather-gradient-card {
-    background-image: var(--weather-gradient);
-}
-
-.weather-cards-row {
-    display: flex;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    flex-direction: row;
-}
-
 /* Location Toggle Button */
-:root {
-    --btn-primary-color: #1a5fa0;
-    --btn-bg-color: #f3f6fa;
-    --btn-hover-shadow: rgba(31, 38, 135, 0.15);
-    --btn-focus-shadow: #43cea233;
-    --btn-border-radius: 20px;
-    --btn-transition-duration: 0.2s;
-}
-
 .location-toggle-btn {
+    /* Layout */
+    padding: var(--btn-padding);
+    border: none;
+    border-radius: var(--btn-border-radius);
+    
     /* Typography */
     font-weight: 600;
     font-size: 1rem;
-
+    
     /* Colors */
     background: var(--btn-bg-color);
     color: var(--btn-primary-color);
-
-    /* Layout */
-    padding: 0.6rem 1.6rem;
-    border: none;
-    border-radius: var(--btn-border-radius);
-
+    
     /* Interaction */
     cursor: pointer;
     transition: all var(--btn-transition-duration);
     outline: none;
-}
-
-/* Accessibility */
-.location-toggle-btn[tabindex='-1'] {
-    outline: none !important;
-    pointer-events: none;
 }
 
 .location-toggle-btn:focus {
@@ -148,21 +129,33 @@
     box-shadow: 0 4px 12px var(--btn-hover-shadow);
 }
 
+/* Accessibility */
+.location-toggle-btn[tabindex='-1'] {
+    outline: none !important;
+    pointer-events: none;
+}
+
+/* Location Switcher Flydown */
 .location-switcher-flydown {
     position: absolute;
     top: -30px;
     left: 50%;
     transform: translate(-50%, -8px) scale(0.98);
-
+    
+    /* Dimensions */
     max-width: 96%;
     min-width: 280px;
     width: 100%;
+    
+    /* Visual */
     background: #fff;
     border-radius: 16px;
     box-shadow:
         0 8px 32px rgba(31, 38, 135, 0.18),
         0 2px 8px rgba(31, 38, 135, 0.08);
     padding: 0;
+    
+    /* Interaction */
     z-index: 12;
     opacity: 0;
     pointer-events: none;
@@ -173,15 +166,29 @@
     will-change: transform, opacity;
 }
 
+.location-toggle-btn[aria-expanded='true'] + .location-switcher-flydown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+}
+
+/* Animations */
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+    .weather-gradient-card {
+        margin: var(--card-margin-desktop);
+    }
+}
+
 @media (min-width: 600px) {
     .location-switcher-flydown {
         min-width: 340px;
         max-width: 900px;
     }
-}
-
-.location-toggle-btn[aria-expanded='true'] + .location-switcher-flydown {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, 0) scale(1);
 }
