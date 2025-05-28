@@ -128,13 +128,27 @@
 }
 
 /* Value Colors */
-.tile:nth-of-type(3) .value { color: #ff9500; }  /* UV Index */
-.tile:nth-of-type(4) .value { color: #007aff; }  /* Feels Like */
-.tile:nth-of-type(5) .value { color: #32ade6; }  /* Wind Speed */
-.tile:nth-of-type(6) .value { color: #32ade6; }  /* Precipitation */
-.tile:nth-of-type(7) .value { color: #5856d6; }  /* Relative Humidity */
-.tile:nth-of-type(8) .value { color: #34c759; }  /* Dew Point */
-.tile:nth-of-type(9) .value { color: #34c759; }  /* Visibility */
+.tile:nth-of-type(3) .value {
+    color: #ff9500;
+} /* UV Index */
+.tile:nth-of-type(4) .value {
+    color: #007aff;
+} /* Feels Like */
+.tile:nth-of-type(5) .value {
+    color: #32ade6;
+} /* Wind Speed */
+.tile:nth-of-type(6) .value {
+    color: #32ade6;
+} /* Precipitation */
+.tile:nth-of-type(7) .value {
+    color: #5856d6;
+} /* Relative Humidity */
+.tile:nth-of-type(8) .value {
+    color: #34c759;
+} /* Dew Point */
+.tile:nth-of-type(9) .value {
+    color: #34c759;
+} /* Visibility */
 
 .tile:hover .value {
     transform: scale(1.1);
@@ -326,13 +340,23 @@
     }
 
     /* Dark mode value colors */
-    .tile:nth-of-type(3) .value { color: #ffb340; }  /* Temperature */
-    .tile:nth-of-type(4) .value { color: #409cff; }  /* UV Index */
+    .tile:nth-of-type(3) .value {
+        color: #ffb340;
+    } /* Temperature */
+    .tile:nth-of-type(4) .value {
+        color: #409cff;
+    } /* UV Index */
     .tile:nth-of-type(5) .value,
-    .tile:nth-of-type(6) .value { color: #40b8ff; }  /* Feels Like & Wind Speed */
+    .tile:nth-of-type(6) .value {
+        color: #40b8ff;
+    } /* Feels Like & Wind Speed */
     .tile:nth-of-type(7) .value,
-    .tile:nth-of-type(8) .value { color: #6e6aff; }  /* Humidity & Dew Point */
-    .tile:nth-of-type(9) .value { color: #40d463; }  /* Visibility & Pressure */
+    .tile:nth-of-type(8) .value {
+        color: #6e6aff;
+    } /* Humidity & Dew Point */
+    .tile:nth-of-type(9) .value {
+        color: #40d463;
+    } /* Visibility & Pressure */
 
     .metricIcon {
         opacity: 0.9;
