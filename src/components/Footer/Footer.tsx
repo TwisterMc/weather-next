@@ -1,7 +1,6 @@
 'use client';
 import './Footer.css';
 import { useWeather } from '@/context/WeatherContext';
-import Link from 'next/link';
 
 export default function Footer() {
     const { lastUpdated, refreshWeatherData } = useWeather();
@@ -17,17 +16,6 @@ export default function Footer() {
                 >
                     Refresh
                 </button>
-            </section>
-            <section className="footer-links">
-                <nav className="footer-links">
-                    <Link href="/" className="app-footer__link">
-                        Dashboard
-                    </Link>
-                    <span> | </span>
-                    <Link href="/details/" className="app-footer__link">
-                        Details Page
-                    </Link>
-                </nav>
             </section>
             Weather data provided by{' '}
             <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="app-footer__link">

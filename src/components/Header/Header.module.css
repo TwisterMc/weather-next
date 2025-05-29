@@ -15,6 +15,7 @@
     gap: 1rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
+    width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -136,4 +137,28 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.navLink {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navLink:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
+.navSeparator {
+    color: var(--color-primary);
+    opacity: 0.5;
 }

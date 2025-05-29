@@ -6,6 +6,7 @@ import { useWeather } from '@/context/WeatherContext';
 import { useTheme } from '@/context/ThemeContext';
 import styles from './Header.module.css';
 import LocationSwitcher from '@/components/LocationSwitcher/LocationSwitcher';
+import Link from 'next/link';
 
 export default function Header() {
     const { city, state, showLocationForm, setShowLocationForm } = useWeather();
@@ -39,6 +40,15 @@ export default function Header() {
             <header className={styles.header}>
                 <div className={styles.titleRow}>
                     <h1 className={styles.title}>{title}</h1>
+                    <nav className={styles.navigation}>
+                        <Link href="/" className={styles.navLink}>
+                            Dashboard
+                        </Link>
+                        <span className={styles.navSeparator}>|</span>
+                        <Link href="/details/" className={styles.navLink}>
+                            Details Page
+                        </Link>
+                    </nav>
                     <div className={styles.buttonGroup}>
                         <button
                             type="button"
