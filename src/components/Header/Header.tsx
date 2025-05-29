@@ -46,7 +46,7 @@ export default function Header() {
                         </Link>
                         <span className={styles.navSeparator}>|</span>
                         <Link href="/details/" className={styles.navLink}>
-                            Details Page
+                            Details
                         </Link>
                     </nav>
                     <div className={styles.buttonGroup}>
@@ -56,7 +56,7 @@ export default function Header() {
                             onClick={toggleTheme}
                             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                         >
-                            {theme === 'light' ? '🌙' : '☀️'}
+                            {theme === 'light' ? '☀️' : '🌙'}
                         </button>
                         <button
                             type="button"

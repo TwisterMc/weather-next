@@ -10,6 +10,7 @@
     --color-white: #fff;
     --color-bg-light: #f3f6fa;
     --color-border: #e0e4e9;
+    --color-header-primary: #1a5fa0;
 
     /* Shadows */
     --shadow-sm: 0 2px 8px rgba(31, 38, 135, 0.1);
@@ -67,6 +68,7 @@
     --btn-bg-color: #3b3b3b;
     --color-link: #74ebd5;
     --btn-primary-color: #a7a7a7;
+    --color-header-primary: #bcbcbc;
 }
 
 /* 
