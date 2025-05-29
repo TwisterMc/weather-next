@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getLocationFromLatLon } from '@/utils/locationUtils';
+import { getLocationFromLatLon, getLocationFromZip } from '@/utils/locationUtils';
 import { weatherMap } from '@/utils/weatherUtils';
 
 interface WeatherContextType {
@@ -81,6 +81,23 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [showLocationForm, setShowLocationForm] = useState(false);
     const [lastUpdated, setLastUpdated] = useState<string | null>(null);
     const [weatherCode, setWeatherCode] = useState<number | null>(null);
+
+    // Effect to handle zip code changes
+    useEffect(() => {
+        if (zip && zip.length === 5) {
+            getLocationFromZip(zip)
+                .then((details) => {
+                    setCity(details.city);
+                    setState(details.state);
+                    setLatitude(details.latitude);
+                    setLongitude(details.longitude);
+                    setLocError('');
+                })
+                .catch((err) => {
+                    setLocError(err.message);
+                });
+        }
+    }, [zip]);
 
     // Effect to save location to localStorage whenever it changes
     useEffect(() => {

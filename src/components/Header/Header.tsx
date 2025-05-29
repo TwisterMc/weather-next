@@ -21,6 +21,9 @@ export default function Header() {
     const locationTitle = city && state ? ` for ${city}, ${state}` : '';
     const title = pageTitle + locationTitle;
 
+    console.log(city);
+    console.log(state);
+
     // Update document title
     useEffect(() => {
         document.title = title;

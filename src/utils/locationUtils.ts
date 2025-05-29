@@ -58,3 +58,25 @@ export async function getLocationFromLatLon(lat: number, lon: number): Promise<L
         zip: address.postcode || '',
     };
 }
+
+export async function getLocationFromZip(zipCode: string): Promise<{ city: string; state: string; latitude: number; longitude: number }> {
+    try {
+        const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`);
+        if (!response.ok) {
+            throw new Error('Invalid zip code');
+        }
+        const data = await response.json();
+        if (!data.places || !data.places[0]) {
+            throw new Error('No location found for this zip code');
+        }
+        return {
+            city: data.places[0]['place name'],
+            state: data.places[0]['state abbreviation'],
+            latitude: parseFloat(data.places[0].latitude),
+            longitude: parseFloat(data.places[0].longitude)
+        };
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Failed to lookup zip code';
+        throw new Error(message);
+    }
+}
