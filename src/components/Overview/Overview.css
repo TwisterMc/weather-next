@@ -17,15 +17,6 @@
     /* Controls */
     --controls-spacing: 24px;
     --controls-z-index: 10;
-
-    /* Button Styles */
-    --btn-primary-color: #1a5fa0;
-    --btn-bg-color: #f3f6fa;
-    --btn-hover-shadow: rgba(31, 38, 135, 0.15);
-    --btn-focus-shadow: #43cea233;
-    --btn-border-radius: 20px;
-    --btn-transition-duration: 0.2s;
-    --btn-padding: 0.6rem 1.6rem;
 }
 
 /* Weather Card Base */

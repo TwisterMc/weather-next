@@ -28,7 +28,7 @@
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: #333;
 }
 
 .location_switcher__close {

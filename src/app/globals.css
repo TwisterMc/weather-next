@@ -53,6 +53,7 @@
     --color-text-light: #888;
     --bg-gradient-overlay: rgba(255, 255, 255, 0.95);
     --btn-bg-color: #f3f6fa;
+    --color-link: #164e84;
 }
 
 /* Dark theme */
@@ -62,8 +63,10 @@
     --color-text: #ededed;
     --color-text-muted: #999;
     --color-text-light: #aaa;
-    --bg-gradient-overlay: rgba(0, 0, 0, 0.95);
-    --btn-bg-color: #1a1a1a;
+    --bg-gradient-overlay: rgba(22, 22, 22, 0.95);
+    --btn-bg-color: #3b3b3b;
+    --color-link: #74ebd5;
+    --btn-primary-color: #a7a7a7;
 }
 
 /* 

@@ -11,17 +11,17 @@
 }
 
 .app-footer__link {
-    color: var(--color-primary);
+    color: var(--color-link);
     text-decoration: underline;
     transition: color var(--animation-duration-fast);
 }
 
 .app-footer__link:hover {
-    color: var(--color-primary-dark);
+    color: var(--color-link-hover);
 }
 
 .app-footer__link:focus {
-    color: var(--color-primary-dark);
+    color: var(--color-link-hover);
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
 }

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useWeather } from '@/context/WeatherContext';
+import { useTheme } from '@/context/ThemeContext';
 import styles from './WeatherDetails.module.css';
 
 export default function WeatherDetails() {
     const weather = useWeather();
+    const { theme, toggleTheme } = useTheme();
     const [unitSystem, setUnitSystem] = useState<'imperial' | 'metric'>('imperial');
 
-    const handleToggle = () => {
+    const handleUnitToggle = () => {
         setUnitSystem((prev) => (prev === 'imperial' ? 'metric' : 'imperial'));
     };
 
@@ -206,19 +208,23 @@ export default function WeatherDetails() {
               );
 
     return (
-        <div role="region" aria-label="Weather Details">
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+        <div role="region" aria-label="Weather Details" data-theme={theme} className={styles.root}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
                 <button
-                    onClick={handleToggle}
-                    className={
-                        unitSystem === 'imperial'
-                            ? `${styles.toggleButton} ${styles.imperialActive}`
-                            : `${styles.toggleButton} ${styles.metricActive}`
-                    }
+                    onClick={handleUnitToggle}
+                    className={styles.toggleButton}
                     aria-pressed={unitSystem === 'metric'}
                     aria-label={`Switch to ${unitSystem === 'imperial' ? 'metric' : 'imperial'} units`}
                 >
                     {unitSystem === 'imperial' ? 'Show Metric' : 'Show Imperial'}
+                </button>
+                <button
+                    onClick={toggleTheme}
+                    className={styles.toggleButton}
+                    aria-pressed={theme === 'dark'}
+                    aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+                >
+                    {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
                 </button>
             </div>
             <div className={styles.grid} role="list">

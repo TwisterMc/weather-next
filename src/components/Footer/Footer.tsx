@@ -20,11 +20,11 @@ export default function Footer() {
             </section>
             <section className="footer-links">
                 <nav className="footer-links">
-                    <Link href="/" className="footer-link">
+                    <Link href="/" className="app-footer__link">
                         Dashboard
                     </Link>
                     <span> | </span>
-                    <Link href="/details/" className="footer-link">
+                    <Link href="/details/" className="app-footer__link">
                         Details Page
                     </Link>
                 </nav>
