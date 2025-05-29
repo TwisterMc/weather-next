@@ -37,10 +37,15 @@
     --btn-focus-shadow: #43cea233;
     --btn-border-radius: 20px;
     --btn-transition-duration: 0.2s;
+
+    /* Accessibility Variables - Minimum Contrast Ratios */
+    --min-contrast-normal-text: 4.5;     /* WCAG AA for normal text */
+    --min-contrast-large-text: 3;        /* WCAG AA for large text */
+    --min-contrast-enhanced: 7;          /* WCAG AAA */
 }
 
 /* Light theme (default) */
-[data-theme="light"] {
+[data-theme='light'] {
     --background: var(--color-white);
     --foreground: var(--color-text);
     --color-text: #222;
@@ -51,7 +56,7 @@
 }
 
 /* Dark theme */
-[data-theme="dark"] {
+[data-theme='dark'] {
     --background: #0a0a0a;
     --foreground: #ededed;
     --color-text: #ededed;
@@ -61,10 +66,58 @@
     --btn-bg-color: #1a1a1a;
 }
 
+/* 
+ * Accessibility Guidelines
+ * ----------------------
+ * 1. Color and Contrast
+ *    - Ensure text meets WCAG 2.1 contrast requirements (4.5:1 for normal text, 3:1 for large text)
+ *    - Never convey information through color alone
+ *    - Provide sufficient contrast for interactive elements (3:1 minimum)
+ *
+ * 2. Focus Management
+ *    - All interactive elements must have visible focus indicators
+ *    - Focus order must be logical and follow DOM order
+ *    - Trap focus within modals when open
+ *    - Provide skip links for keyboard navigation
+ *
+ * 3. Screen Readers
+ *    - Use semantic HTML elements
+ *    - Provide ARIA labels when semantic HTML isn't sufficient
+ *    - Ensure dynamic content updates are announced
+ *    - Hide decorative elements from screen readers
+ *
+ * 4. Motion and Animation
+ *    - Respect prefers-reduced-motion
+ *    - Avoid auto-playing animations
+ *    - Provide controls for carousels/slideshows
+ *
+ * 5. Forms and Inputs
+ *    - All form controls must have visible labels
+ *    - Error messages must be clear and programmatically associated
+ *    - Group related form elements with fieldset/legend
+ *
+ * 6. Images and Media
+ *    - All images must have alt text
+ *    - Complex images need extended descriptions
+ *    - Videos need captions and transcripts
+ *
+ * 7. Responsive Design
+ *    - Ensure text remains readable at 200% zoom
+ *    - Maintain functionality across viewport sizes
+ *    - Support both portrait and landscape orientations
+ */
+
 body {
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
+    /* Ensure minimum text size for readability */
+    font-size: 100%;
+    /* Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Ensure proper line height for readability */
+    line-height: 1.5;
 }
 
 .app-root {
@@ -154,5 +207,27 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* Large Text Support */
+@media screen and (min-width: 768px) {
+    html {
+        /* Enable zoom without breaking layout */
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+}
+
+/* Print Styles for Accessibility */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    a[href]::after {
+        content: ' (' attr(href) ')';
     }
 }

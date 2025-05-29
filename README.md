@@ -21,6 +21,19 @@ This project is a modern, accessible weather app built with Next.js, TypeScript,
 - Accessible, modern UI
 - Ready for server-side rendering and API routes
 
----
+## Documentation
 
-For more details, see the Next.js documentation: https://nextjs.org/docs
+- [Accessibility Guidelines](./ACCESSIBILITY.md) - Comprehensive accessibility standards and best practices
+- [Coding Standards](./CODING_STANDARDS.md) - Code style, formatting, and development guidelines
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
+
+## Contributing
+
+Before contributing, please review:
+1. Our coding standards and guidelines
+2. Accessibility requirements
+3. Testing requirements
+
+## License
+
+[MIT](./LICENSE)
