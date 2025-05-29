@@ -3,11 +3,13 @@
 import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useWeather } from '@/context/WeatherContext';
+import { useTheme } from '@/context/ThemeContext';
 import styles from './Header.module.css';
 import LocationSwitcher from '@/components/LocationSwitcher/LocationSwitcher';
 
 export default function Header() {
     const { city, state, showLocationForm, setShowLocationForm } = useWeather();
+    const { theme, toggleTheme } = useTheme();
     const pathname = usePathname();
     const isDetailsPage = pathname === '/details/';
 
@@ -37,15 +39,25 @@ export default function Header() {
             <header className={styles.header}>
                 <div className={styles.titleRow}>
                     <h1 className={styles.title}>{title}</h1>
-                    <button
-                        type="button"
-                        className={styles.locationToggle}
-                        onClick={() => setShowLocationForm(!showLocationForm)}
-                        aria-expanded={showLocationForm}
-                        aria-controls="location-switcher-form"
-                    >
-                        {'Change Location'}
-                    </button>
+                    <div className={styles.buttonGroup}>
+                        <button
+                            type="button"
+                            className={styles.themeToggle}
+                            onClick={toggleTheme}
+                            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                        >
+                            {theme === 'light' ? '🌙' : '☀️'}
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.locationToggle}
+                            onClick={() => setShowLocationForm(!showLocationForm)}
+                            aria-expanded={showLocationForm}
+                            aria-controls="location-switcher-form"
+                        >
+                            {'Change Location'}
+                        </button>
+                    </div>
                 </div>
                 {showLocationForm && (
                     <div className={styles.locationSwitcherWrapper}>

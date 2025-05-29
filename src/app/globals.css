@@ -39,15 +39,26 @@
     --btn-transition-duration: 0.2s;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-        --color-text: #ededed;
-        --color-text-muted: #999;
-        --color-text-light: #aaa;
-        --bg-gradient-overlay: rgba(0, 0, 0, 0.95);
-    }
+/* Light theme (default) */
+[data-theme="light"] {
+    --background: var(--color-white);
+    --foreground: var(--color-text);
+    --color-text: #222;
+    --color-text-muted: #666;
+    --color-text-light: #888;
+    --bg-gradient-overlay: rgba(255, 255, 255, 0.95);
+    --btn-bg-color: #f3f6fa;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --color-text: #ededed;
+    --color-text-muted: #999;
+    --color-text-light: #aaa;
+    --bg-gradient-overlay: rgba(0, 0, 0, 0.95);
+    --btn-bg-color: #1a1a1a;
 }
 
 body {

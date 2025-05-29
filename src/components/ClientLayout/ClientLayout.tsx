@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useWeather, WeatherProvider } from '@/context/WeatherContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 import { usePageFocus } from '@/hooks/usePageFocus';
@@ -38,8 +39,10 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     return (
-        <WeatherProvider>
-            <ClientLayoutContent>{children}</ClientLayoutContent>
-        </WeatherProvider>
+        <ThemeProvider>
+            <WeatherProvider>
+                <ClientLayoutContent>{children}</ClientLayoutContent>
+            </WeatherProvider>
+        </ThemeProvider>
     );
 }
