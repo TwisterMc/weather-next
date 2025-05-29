@@ -77,7 +77,6 @@
     grid-row: span 2;
     padding: clamp(2rem, 3vw, 3rem);
     min-height: 320px;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
     justify-content: center;
 }
 
@@ -88,7 +87,6 @@
     right: 0;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle at center, var(--color-primary-light) 0%, transparent 70%);
     opacity: 0.1;
     border-radius: 50%;
     transform: translate(30%, 30%);

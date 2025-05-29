@@ -208,7 +208,13 @@ export default function WeatherDetails() {
         <div role="region" aria-label="Weather Details" data-theme={theme} className={styles.root}>
             <div className={styles.grid} role="list">
                 {/* Temperature - Large Tile */}
-                <div className={`${styles.tile} ${styles.temperatureTile}`} role="listitem">
+                <div
+                    className={`${styles.tile} ${styles.temperatureTile}`}
+                    role="listitem"
+                    style={{
+                        background: `radial-gradient(circle at bottom right, ${displayTempColor}45 0%, transparent 25%)`,
+                    }}
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 320 512"
