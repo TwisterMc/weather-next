@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useWeather } from '@/context/WeatherContext';
 import { useTheme } from '@/context/ThemeContext';
+import { useUnit } from '@/context/UnitContext';
 import styles from './WeatherDetails.module.css';
 
 export default function WeatherDetails() {
     const weather = useWeather();
     const { theme } = useTheme();
-    const [unitSystem, setUnitSystem] = useState<'imperial' | 'metric'>('imperial');
-
-    const handleUnitToggle = () => {
-        setUnitSystem((prev) => (prev === 'imperial' ? 'metric' : 'imperial'));
-    };
+    const { unitSystem } = useUnit();
 
     const getTemperatureColor = (temp: number | null, isCelsius: boolean = false): string => {
         if (temp === null) return 'var(--color-primary)';
@@ -209,16 +206,6 @@ export default function WeatherDetails() {
 
     return (
         <div role="region" aria-label="Weather Details" data-theme={theme} className={styles.root}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
-                <button
-                    onClick={handleUnitToggle}
-                    className={styles.toggleButton}
-                    aria-pressed={unitSystem === 'metric'}
-                    aria-label={`Switch to ${unitSystem === 'imperial' ? 'metric' : 'imperial'} units`}
-                >
-                    {unitSystem === 'imperial' ? 'Show Metric' : 'Show Imperial'}
-                </button>
-            </div>
             <div className={styles.grid} role="list">
                 {/* Temperature - Large Tile */}
                 <div className={`${styles.tile} ${styles.temperatureTile}`} role="listitem">

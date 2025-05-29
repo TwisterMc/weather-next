@@ -3,9 +3,11 @@
 import React, { useEffect } from 'react';
 import { useWeather, WeatherProvider } from '@/context/WeatherContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { UnitProvider } from '@/context/UnitContext';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 import { usePageFocus } from '@/hooks/usePageFocus';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { refreshWeatherData } = useWeather();
@@ -39,10 +41,14 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     return (
-        <ThemeProvider>
-            <WeatherProvider>
-                <ClientLayoutContent>{children}</ClientLayoutContent>
-            </WeatherProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+            <ThemeProvider>
+                <WeatherProvider>
+                    <UnitProvider>
+                        <ClientLayoutContent>{children}</ClientLayoutContent>
+                    </UnitProvider>
+                </WeatherProvider>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }

@@ -56,10 +56,12 @@
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    margin-left: 1rem;
 }
 
 .locationToggle,
-.themeToggle {
+.themeToggle,
+.unitToggle {
     /* Colors */
     background: var(--btn-bg-color);
     color: var(--btn-primary-color);
@@ -90,7 +92,9 @@
 .locationToggle:hover,
 .locationToggle:active,
 .themeToggle:hover,
-.themeToggle:active {
+.themeToggle:active,
+.unitToggle:hover,
+.unitToggle:active {
     background: var(--btn-primary-color);
     color: var(--color-white);
     box-shadow: 0 4px 12px var(--btn-hover-shadow);
