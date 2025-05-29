@@ -82,22 +82,210 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const [lastUpdated, setLastUpdated] = useState<string | null>(null);
     const [weatherCode, setWeatherCode] = useState<number | null>(null);
 
+    // Helper function to set location details atomically
+    const setLocationDetails = (
+        details: { city: string; state: string; latitude: number; longitude: number; zip?: string },
+        isMyLocation: boolean = false
+    ) => {
+        // Verify we have valid data before updating
+        if (!details.latitude || !details.longitude) {
+            console.error('Invalid location details - missing coordinates');
+            return;
+        }
+
+        // Use a batch update to prevent race conditions
+        const batchUpdate = () => {
+            if (isMyLocation) {
+                // When using geolocation, we explicitly clear certain fields
+                setCity(details.city || '');
+                setState(details.state || '');
+                setZip(''); // Always clear zip when using geolocation
+            } else {
+                // For manual location entry, preserve all fields
+                setCity(details.city || '');
+                setState(details.state || '');
+                if (details.zip && details.zip.length === 5) {
+                    setZip(details.zip);
+                }
+            }
+
+            // Always update coordinates
+            setLatitude(details.latitude);
+            setLongitude(details.longitude);
+            setUsedMyLocation(isMyLocation);
+            setLocError('');
+        };
+
+        batchUpdate();
+
+        // Save to localStorage immediately after state update
+        const locationData = {
+            latitude: details.latitude,
+            longitude: details.longitude,
+            city: details.city || '',
+            state: details.state || '',
+            zip: isMyLocation ? '' : details.zip || '',
+            usedMyLocation: isMyLocation,
+        };
+        localStorage.setItem('weatherLocation', JSON.stringify(locationData));
+    };
+
     // Effect to handle zip code changes
     useEffect(() => {
-        if (zip && zip.length === 5) {
-            getLocationFromZip(zip)
-                .then((details) => {
-                    setCity(details.city);
-                    setState(details.state);
-                    setLatitude(details.latitude);
-                    setLongitude(details.longitude);
-                    setLocError('');
-                })
-                .catch((err) => {
-                    setLocError(err.message);
-                });
-        }
-    }, [zip]);
+        let isMounted = true;
+
+        const updateLocationFromZip = async () => {
+            if (!zip || zip.length !== 5 || usedMyLocation) return;
+
+            setIsFetchingLocation(true);
+            try {
+                const location = await getLocationFromZip(zip);
+                if (!isMounted) return;
+
+                // Only update if we're still using zip code mode
+                if (!usedMyLocation) {
+                    const locationData = {
+                        ...location,
+                        zip,
+                        usedMyLocation: false,
+                    };
+
+                    // Update state atomically
+                    setLocationDetails(locationData, false);
+
+                    // Save to localStorage
+                    localStorage.setItem('weatherLocation', JSON.stringify(locationData));
+                    setShowLocationForm(false);
+                }
+            } catch (err) {
+                if (!isMounted) {
+                    console.error('Error fetching location from zip:', err);
+                    setLocError('Failed to find location for zip code');
+                }
+            } finally {
+                if (isMounted) {
+                    setIsFetchingLocation(false);
+                }
+            }
+        };
+
+        updateLocationFromZip();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [zip, usedMyLocation]);
+
+    // Effect to handle geolocation updates
+    useEffect(() => {
+        let isMounted = true;
+
+        const updateFromGeolocation = async () => {
+            if (!usedMyLocation || latitude === null || longitude === null) return;
+
+            setIsFetchingLocation(true);
+            try {
+                const details = await getLocationFromLatLon(latitude, longitude);
+                if (!isMounted) return;
+
+                // Only update if we're still using geolocation
+                if (usedMyLocation) {
+                    const locationData = {
+                        ...details,
+                        latitude,
+                        longitude,
+                    };
+
+                    setLocationDetails(locationData, true);
+                    setShowLocationForm(false);
+                }
+            } catch (err) {
+                if (!isMounted) return;
+                console.error('Failed to get location details:', err);
+                setLocError('Could not determine your location. Please enter it manually.');
+                setShowLocationForm(true);
+            } finally {
+                if (isMounted) {
+                    setIsFetchingLocation(false);
+                }
+            }
+        };
+
+        updateFromGeolocation();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [latitude, longitude, usedMyLocation]);
+
+    // Single initialization effect
+    useEffect(() => {
+        let isMounted = true;
+
+        const initializeLocation = async () => {
+            const savedLocation = localStorage.getItem('weatherLocation');
+
+            if (savedLocation) {
+                try {
+                    const locationData = JSON.parse(savedLocation);
+                    const { zip, usedMyLocation: savedUsedMyLocation } = locationData;
+
+                    if (zip && zip.length === 5 && !savedUsedMyLocation) {
+                        // If we have a saved zip code, use it as source of truth
+                        if (isMounted) {
+                            setZip(zip); // This will trigger the zip effect
+                        }
+                    } else if (savedUsedMyLocation) {
+                        // If we were using geolocation, restore those coordinates
+                        if (isMounted) {
+                            setLatitude(locationData.latitude);
+                            setLongitude(locationData.longitude);
+                            setUsedMyLocation(true);
+                        }
+                    } else {
+                        // Use saved location data as-is
+                        if (isMounted) {
+                            setLocationDetails(locationData, savedUsedMyLocation);
+                        }
+                    }
+                } catch (err) {
+                    console.error('Failed to parse saved location:', err);
+                }
+            } else if (navigator.geolocation) {
+                setIsFetchingLocation(true);
+                try {
+                    const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject);
+                    });
+
+                    if (isMounted) {
+                        setLocationDetails(
+                            {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                                city: '',
+                                state: '',
+                            },
+                            true
+                        );
+                        setIsFetchingLocation(false);
+                    }
+                } catch {
+                    if (isMounted) {
+                        setLocError('Could not get your location');
+                        setIsFetchingLocation(false);
+                        setShowLocationForm(true);
+                    }
+                }
+            }
+        };
+
+        initializeLocation();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     // Effect to save location to localStorage whenever it changes
     useEffect(() => {
@@ -114,23 +302,6 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
         }
     }, [latitude, longitude, city, state, zip, usedMyLocation]);
 
-    // Effect to update location details when coordinates change
-    useEffect(() => {
-        if (usedMyLocation && latitude !== null && longitude !== null) {
-            getLocationFromLatLon(latitude, longitude)
-                .then((details) => {
-                    setCity(details.city);
-                    setState(details.state);
-                    setZip(details.zip);
-                })
-                .catch((err) => {
-                    console.error('Failed to get location details:', err);
-                    setLocError('Could not determine your location. Please enter it manually.');
-                    setShowLocationForm(true);
-                });
-        }
-    }, [latitude, longitude, usedMyLocation]);
-
     // Effect to update display location when location details change
     useEffect(() => {
         if (city && state) {
@@ -143,94 +314,6 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
             setDisplayLocation('Loading location details...');
         }
     }, [city, state, usedMyLocation, latitude, longitude]);
-
-    // Effect to initialize location on mount
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedLocation = localStorage.getItem('weatherLocation');
-            if (savedLocation) {
-                const {
-                    latitude,
-                    longitude,
-                    city,
-                    state,
-                    zip,
-                    usedMyLocation: savedUsedMyLocation,
-                } = JSON.parse(savedLocation);
-                setLatitude(latitude);
-                setLongitude(longitude);
-                setCity(city || '');
-                setState(state || '');
-                setZip(zip || '');
-                setUsedMyLocation(savedUsedMyLocation || false);
-            } else if (navigator.geolocation) {
-                setIsFetchingLocation(true);
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        setLatitude(pos.coords.latitude);
-                        setLongitude(pos.coords.longitude);
-                        setUsedMyLocation(true);
-                        setIsFetchingLocation(false);
-
-                        const locationData = {
-                            latitude: pos.coords.latitude,
-                            longitude: pos.coords.longitude,
-                            city: '',
-                            state: '',
-                            zip: '',
-                            usedMyLocation: true,
-                        };
-                        localStorage.setItem('weatherLocation', JSON.stringify(locationData));
-                    },
-                    () => {
-                        setLocError('Could not get your location');
-                        setIsFetchingLocation(false);
-                        setShowLocationForm(true);
-                    }
-                );
-            }
-        }
-    }, []);
-
-    // Effect to load saved location from localStorage on app start
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedLocation = localStorage.getItem('weatherLocation');
-            if (savedLocation) {
-                try {
-                    const {
-                        latitude: savedLat,
-                        longitude: savedLon,
-                        city: savedCity,
-                        state: savedState,
-                        zip: savedZip,
-                        usedMyLocation: savedUsedMyLocation,
-                    } = JSON.parse(savedLocation);
-
-                    // Only update location if we actually have coordinates
-                    if (savedLat && savedLon) {
-                        setLatitude(savedLat);
-                        setLongitude(savedLon);
-                        if (savedUsedMyLocation) {
-                            setUsedMyLocation(true);
-                            // When using geolocation, we clear the form fields
-                            setCity('');
-                            setState('');
-                            setZip('');
-                        } else {
-                            // When using manual location, restore the form fields
-                            setCity(savedCity || '');
-                            setState(savedState || '');
-                            setZip(savedZip || '');
-                        }
-                        setShowLocationForm(false); // Close the form after restoring location
-                    }
-                } catch (err) {
-                    console.error('Failed to parse saved location:', err);
-                }
-            }
-        }
-    }, []);
 
     // Effect to fetch weather data when location changes
     useEffect(() => {
@@ -297,6 +380,65 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     function refreshWeatherData() {
         fetchWeatherData();
     }
+
+    // Effect to initialize location data from localStorage
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const savedLocation = localStorage.getItem('weatherLocation');
+        if (!savedLocation) {
+            setShowLocationForm(true);
+            return;
+        }
+
+        try {
+            const locationData = JSON.parse(savedLocation);
+            const {
+                latitude: savedLat,
+                longitude: savedLon,
+                city: savedCity,
+                state: savedState,
+                zip: savedZip,
+                usedMyLocation: savedUsedMyLocation,
+            } = locationData;
+
+            // Ensure we have valid coordinates before proceeding
+            if (!savedLat || !savedLon) {
+                setShowLocationForm(true);
+                return;
+            }
+
+            // Function to set all location details atomically
+            const updateLocation = () => {
+                setLatitude(savedLat);
+                setLongitude(savedLon);
+
+                if (savedUsedMyLocation) {
+                    setUsedMyLocation(true);
+                    // When using geolocation, we intentionally clear form fields
+                    setCity('');
+                    setState('');
+                    setZip('');
+                } else {
+                    // For manual location, preserve all fields
+                    setCity(savedCity || '');
+                    setState(savedState || '');
+                    if (savedZip && savedZip.length === 5) {
+                        setZip(savedZip);
+                    }
+                }
+
+                setLocError('');
+                setShowLocationForm(false);
+            };
+
+            // Perform the update
+            updateLocation();
+        } catch (err) {
+            console.error('Failed to parse saved location:', err);
+            setShowLocationForm(true);
+        }
+    }, []); // Only run on mount
 
     return (
         <WeatherContext.Provider

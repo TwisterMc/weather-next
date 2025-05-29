@@ -1,6 +1,6 @@
 import React from 'react';
 import './LocationSwitcher.css';
-import { getLatLonFromLocation, getLocationFromLatLon } from '@/utils/locationUtils';
+import { getLatLonFromLocation, getLocationFromLatLon, getLocationFromZip } from '@/utils/locationUtils';
 import { useWeather } from '@/context/WeatherContext';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 
@@ -71,15 +71,18 @@ export default function LocationSwitcher({ show, onClose }: LocationSwitcherProp
                     throw new Error('Please enter a ZIP code or city (optionally with state abbreviation)');
                 }
             }
-
             const result = await getLatLonFromLocation(locationQuery);
             const details = await getLocationFromLatLon(result.lat, result.lon);
 
             // Update all location details
             setLatitude(result.lat);
             setLongitude(result.lon);
-            setCity(details.city);
-            setState(details.state);
+
+            // Get the city and state from the other API for consistency
+            const locationCityState = await getLocationFromZip(details.zip);
+
+            if (locationCityState.city) setCity(locationCityState.city);
+            if (locationCityState.state) setState(locationCityState.state);
             if (details.zip) setZip(details.zip);
 
             setIsFetchingLocation(false);

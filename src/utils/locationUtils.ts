@@ -18,6 +18,7 @@ export interface LocationDetails {
 
 // Utility to fetch lat/lon from city/state or zip using Nominatim
 export async function getLatLonFromLocation({ city, state, zip }: LocationInput): Promise<LatLon> {
+    console.log(city, state, zip);
     let query = '';
     if (zip) {
         query = encodeURIComponent(zip);
@@ -38,6 +39,8 @@ export async function getLatLonFromLocation({ city, state, zip }: LocationInput)
 }
 
 export async function getLocationFromLatLon(lat: number, lon: number): Promise<LocationDetails> {
+    console.log('getLocationFromLatLon');
+
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
     const response = await fetch(url, {
         headers: {
@@ -52,8 +55,9 @@ export async function getLocationFromLatLon(lat: number, lon: number): Promise<L
     if (!data.address) throw new Error('Location details not found');
 
     const address = data.address;
+    console.log('Address:', address);
     return {
-        city: address.city || address.town || address.village || address.hamlet || '',
+        city: address.city || address.town || address.village || address.hamlet || address.county || '',
         state: address.state || '',
         zip: address.postcode || '',
     };
