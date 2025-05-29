@@ -1,4 +1,4 @@
-.weather-card {
+.card {
     --card-padding: 2.5rem;
     --card-radius: 32px;
 
@@ -16,12 +16,12 @@
 }
 
 @media (min-width: 768px) {
-    .weather-card {
+    .card {
         min-width: 320px;
     }
 }
 
-.weather-card__title {
+.title {
     font-weight: 700;
     font-size: 1.6rem;
     margin-bottom: 1.2rem;
@@ -30,102 +30,7 @@
     position: relative;
 }
 
-.weather-card__loading {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-    z-index: 1;
-    position: relative;
-}
-
-.weather-card__error {
-    color: var(--color-error);
-    font-weight: 500;
-    z-index: 1;
-    position: relative;
-}
-
-.weather-card__icon-block {
-    margin-bottom: 1.2rem;
-    z-index: 1;
-    position: relative;
-}
-
-.weather-card__icon {
-    font-size: 4.5rem;
-    display: block;
-    margin-bottom: 0.5rem;
-    filter: drop-shadow(0 2px 8px var(--color-primary-light));
-}
-
-.weather-card__condition {
-    font-size: 1.4rem;
-    color: var(--color-text-muted);
-    font-weight: 600;
-}
-
-.weather-card__details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    font-size: 1.15rem;
-    color: var(--color-text);
-    z-index: 1;
-    position: relative;
-}
-
-.weather-card__temp {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--color-primary);
-}
-
-.weather-card__highlight {
-    color: var(--color-primary);
-}
-
-.weather-card__loading-anim {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 180px;
-}
-
-.weather-card__spinner {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.7rem;
-}
-
-.weather-card__dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
-    animation: weather-card-bounce var(--animation-duration-slow) infinite alternate;
-}
-
-.weather-card__dot:nth-child(2) {
-    animation-delay: var(--animation-duration-fast);
-}
-
-.weather-card__dot:nth-child(3) {
-    animation-delay: calc(var(--animation-duration-fast) * 2);
-}
-
-@keyframes weather-card-bounce {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-18px);
-        opacity: 0.7;
-    }
-}
-
-.weather-card__current-label {
+.currentLabel {
     display: inline-block;
     background: var(--gradient-primary);
     color: var(--color-white);
@@ -138,3 +43,133 @@
     margin-top: -0.5rem;
     box-shadow: var(--shadow-sm);
 }
+
+.loading,
+.error {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    z-index: 1;
+    position: relative;
+}
+
+.error {
+    color: var(--color-error);
+    font-weight: 500;
+}
+
+.iconBlock {
+    margin-bottom: 1.2rem;
+    z-index: 1;
+    position: relative;
+}
+
+.icon {
+    font-size: 4.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 8px var(--color-primary-light));
+}
+
+.condition {
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    font-size: 1.15rem;
+    color: var(--color-text);
+    z-index: 1;
+    position: relative;
+    margin: 0;
+}
+
+.detailItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.detailItem dt {
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.temp {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.highlight {
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.loadingAnim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+}
+
+.spinner {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+    animation: bounce var(--animation-duration-slow) infinite alternate;
+}
+
+.dot:nth-child(2) {
+    animation-delay: var(--animation-duration-fast);
+}
+
+.dot:nth-child(3) {
+    animation-delay: calc(var(--animation-duration-fast) * 2);
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-18px);
+        opacity: 0.7;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (forced-colors: active) {
+    .card {
+        border: 1px solid currentColor;
+    }
+
+    .currentLabel,
+    .icon,
+    .temp,
+    .highlight {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .dot {
+        animation: none;
+    }
+} 

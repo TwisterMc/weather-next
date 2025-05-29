@@ -39,9 +39,9 @@
     --btn-transition-duration: 0.2s;
 
     /* Accessibility Variables - Minimum Contrast Ratios */
-    --min-contrast-normal-text: 4.5;     /* WCAG AA for normal text */
-    --min-contrast-large-text: 3;        /* WCAG AA for large text */
-    --min-contrast-enhanced: 7;          /* WCAG AAA */
+    --min-contrast-normal-text: 4.5; /* WCAG AA for normal text */
+    --min-contrast-large-text: 3; /* WCAG AA for large text */
+    --min-contrast-enhanced: 7; /* WCAG AAA */
 }
 
 /* Light theme (default) */

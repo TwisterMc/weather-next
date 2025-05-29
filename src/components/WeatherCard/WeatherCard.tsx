@@ -1,6 +1,16 @@
 import React from 'react';
-import './WeatherCardStyles.css';
+import styles from './WeatherCard.module.css';
 import { useWeather } from '@/context/WeatherContext';
+
+interface WeatherCardProps {
+    title: string;
+    unitSymbol: '°F' | '°C';
+    windLabel: string;
+    windUnit: string;
+    precipitationLabel: string;
+    reserveSpace?: boolean;
+    isFetchingLocation?: boolean;
+}
 
 export default function WeatherCard({
     title,
@@ -8,17 +18,9 @@ export default function WeatherCard({
     windLabel,
     windUnit,
     precipitationLabel,
-    reserveSpace,
-    isFetchingLocation,
-}: {
-    title: string;
-    unitSymbol: string;
-    windLabel: string;
-    windUnit: string;
-    precipitationLabel: string;
-    reserveSpace?: boolean;
-    isFetchingLocation?: boolean;
-}) {
+    reserveSpace = false,
+    isFetchingLocation = false,
+}: WeatherCardProps): React.ReactElement {
     const { iconUrl, condition, temperature, temperatureC, feelsLike, windSpeed, precipChance, loading, error } =
         useWeather();
 
@@ -37,71 +39,78 @@ export default function WeatherCard({
                 : windSpeed
             : windSpeed;
 
-    // If fetching location, don't load or display data
+    // Loading state with location fetching
     if (isFetchingLocation) {
         return (
-            <header className="weather-card">
-                <div className="weather-card__current-label">Current</div>
-                <h2 className="weather-card__title">{title}</h2>
-                <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
-                    <div className="weather-card__spinner">
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+            <article className={styles.card} aria-busy="true">
+                <div className={styles.currentLabel}>Current</div>
+                <h2 className={styles.title}>{title}</h2>
+                <div className={styles.loadingAnim} style={reserveSpace ? { minHeight: 300 } : {}}>
+                    <div className={styles.spinner} role="status">
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
                     </div>
-                    <p className="weather-card__loading">Fetching location...</p>
+                    <p className={styles.loading}>Fetching location...</p>
                 </div>
-            </header>
+            </article>
         );
     }
 
     return (
-        <header className="weather-card">
-            <div className="weather-card__current-label">Current</div>
-            <h2 className="weather-card__title">{title}</h2>
+        <article className={styles.card}>
+            <div className={styles.currentLabel}>Current</div>
+            <h2 className={styles.title}>{title}</h2>
             {loading && (
-                <div className="weather-card__loading-anim" style={reserveSpace ? { minHeight: 300 } : {}}>
-                    <div className="weather-card__spinner">
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
-                        <div className="weather-card__dot" data-testid="weather-card-dot"></div>
+                <div className={styles.loadingAnim} style={reserveSpace ? { minHeight: 300 } : {}} aria-busy="true">
+                    <div className={styles.spinner} role="status">
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
+                        <div className={styles.dot} data-testid="weather-card-dot" aria-hidden="true"></div>
                     </div>
-                    <p className="weather-card__loading">Loading...</p>
+                    <p className={styles.loading}>Loading weather data...</p>
                 </div>
             )}
-            {!loading && error && <p className="weather-card__error">Error: {error}</p>}
+            {!loading && error && (
+                <p className={styles.error} role="alert">
+                    Error: {error}
+                </p>
+            )}
             {!loading && displayTemp !== null && !error && (
                 <>
-                    <div className="weather-card__icon-block">
-                        <span className="weather-card__icon">{iconUrl}</span>
-                        <span className="weather-card__condition">{condition}</span>
-                    </div>
-                    <div className="weather-card__details">
-                        <span className="weather-card__temp">
-                            {displayTemp}
-                            {unitSymbol}
+                    <div className={styles.iconBlock}>
+                        <span className={styles.icon} role="img" aria-label={condition}>
+                            {iconUrl}
                         </span>
-                        <span>
-                            <strong>Feels Like:</strong>{' '}
-                            <span className="weather-card__highlight">
+                        <span className={styles.condition}>{condition}</span>
+                    </div>
+                    <dl className={styles.details}>
+                        <div className={styles.detailItem}>
+                            <dt className="sr-only">Temperature</dt>
+                            <dd className={styles.temp}>
+                                {displayTemp}
+                                {unitSymbol}
+                            </dd>
+                        </div>
+                        <div className={styles.detailItem}>
+                            <dt>Feels Like</dt>
+                            <dd className={styles.highlight}>
                                 {displayFeelsLike !== null ? displayFeelsLike + unitSymbol : 'N/A'}
-                            </span>
-                        </span>
-                        <span>
-                            <strong>{windLabel}:</strong>{' '}
-                            <span className="weather-card__highlight">
+                            </dd>
+                        </div>
+                        <div className={styles.detailItem}>
+                            <dt>{windLabel}</dt>
+                            <dd className={styles.highlight}>
                                 {displayWind !== null ? displayWind + ' ' + windUnit : 'N/A'}
-                            </span>
-                        </span>
-                        <span>
-                            <strong>{precipitationLabel}:</strong>{' '}
-                            <span className="weather-card__highlight">
-                                {precipChance !== null ? precipChance + '%' : 'N/A'}
-                            </span>
-                        </span>
-                    </div>
+                            </dd>
+                        </div>
+                        <div className={styles.detailItem}>
+                            <dt>{precipitationLabel}</dt>
+                            <dd className={styles.highlight}>{precipChance !== null ? precipChance + '%' : 'N/A'}</dd>
+                        </div>
+                    </dl>
                 </>
             )}
-        </header>
+        </article>
     );
 }
