@@ -189,7 +189,9 @@ export default function WeatherDetails() {
     // Helper for temperature value and label
     const displayTemperature =
         unitSystem === 'imperial'
-            ? (weather.temperature != null ? Math.round(weather.temperature) : '--')
+            ? weather.temperature != null
+                ? Math.round(weather.temperature)
+                : '--'
             : weather.temperatureC != null
               ? typeof weather.temperatureC === 'string'
                   ? Math.round(parseFloat(weather.temperatureC))
