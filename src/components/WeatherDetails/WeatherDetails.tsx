@@ -58,8 +58,8 @@ export default function WeatherDetails() {
             value:
                 weather.feelsLike != null
                     ? unitSystem === 'imperial'
-                        ? `${weather.feelsLike}°`
-                        : `${(((weather.feelsLike - 32) * 5) / 9).toFixed(1)}°`
+                        ? `${Math.round(weather.feelsLike)}°`
+                        : `${Math.round(((weather.feelsLike - 32) * 5) / 9)}°`
                     : '--',
             unit: unitSystem === 'imperial' ? 'Fahrenheit' : 'Celsius',
             color: '#007AFF',
@@ -132,8 +132,8 @@ export default function WeatherDetails() {
             value:
                 weather.dewPoint != null
                     ? unitSystem === 'imperial'
-                        ? `${weather.dewPoint.toFixed(1)}°`
-                        : `${(((weather.dewPoint - 32) * 5) / 9).toFixed(1)}°`
+                        ? `${Math.round(weather.dewPoint)}°`
+                        : `${Math.round(((weather.dewPoint - 32) * 5) / 9)}°`
                     : '--',
             unit: unitSystem === 'imperial' ? 'Fahrenheit' : 'Celsius',
             color: '#5856D6',
@@ -189,7 +189,7 @@ export default function WeatherDetails() {
     // Helper for temperature value and label
     const displayTemperature =
         unitSystem === 'imperial'
-            ? (weather.temperature ?? '--')
+            ? (weather.temperature != null ? Math.round(weather.temperature) : '--')
             : weather.temperatureC != null
               ? typeof weather.temperatureC === 'string'
                   ? Math.round(parseFloat(weather.temperatureC))
