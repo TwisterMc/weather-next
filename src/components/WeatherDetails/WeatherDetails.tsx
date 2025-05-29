@@ -5,7 +5,7 @@ import styles from './WeatherDetails.module.css';
 
 export default function WeatherDetails() {
     const weather = useWeather();
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const [unitSystem, setUnitSystem] = useState<'imperial' | 'metric'>('imperial');
 
     const handleUnitToggle = () => {
@@ -217,14 +217,6 @@ export default function WeatherDetails() {
                     aria-label={`Switch to ${unitSystem === 'imperial' ? 'metric' : 'imperial'} units`}
                 >
                     {unitSystem === 'imperial' ? 'Show Metric' : 'Show Imperial'}
-                </button>
-                <button
-                    onClick={toggleTheme}
-                    className={styles.toggleButton}
-                    aria-pressed={theme === 'dark'}
-                    aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-                >
-                    {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
                 </button>
             </div>
             <div className={styles.grid} role="list">
