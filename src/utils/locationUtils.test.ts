@@ -38,14 +38,14 @@ describe('getLocationFromZip', () => {
                     'place name': 'Minneapolis',
                     'state abbreviation': 'MN',
                     latitude: '44.9795',
-                    longitude: '-93.2768'
-                }
-            ]
+                    longitude: '-93.2768',
+                },
+            ],
         };
 
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve(mockResponse)
+            json: () => Promise.resolve(mockResponse),
         });
 
         const result = await getLocationFromZip('55402');
@@ -54,7 +54,7 @@ describe('getLocationFromZip', () => {
             city: 'Minneapolis',
             state: 'MN',
             latitude: 44.9795,
-            longitude: -93.2768
+            longitude: -93.2768,
         });
 
         expect(mockFetch).toHaveBeenCalledWith('https://api.zippopotam.us/us/55402');
@@ -62,7 +62,7 @@ describe('getLocationFromZip', () => {
 
     it('should handle invalid zip codes', async () => {
         mockFetch.mockResolvedValueOnce({
-            ok: false
+            ok: false,
         });
 
         await expect(getLocationFromZip('00000')).rejects.toThrow('Invalid zip code');

@@ -59,7 +59,9 @@ export async function getLocationFromLatLon(lat: number, lon: number): Promise<L
     };
 }
 
-export async function getLocationFromZip(zipCode: string): Promise<{ city: string; state: string; latitude: number; longitude: number }> {
+export async function getLocationFromZip(
+    zipCode: string
+): Promise<{ city: string; state: string; latitude: number; longitude: number }> {
     try {
         const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`);
         if (!response.ok) {
@@ -73,7 +75,7 @@ export async function getLocationFromZip(zipCode: string): Promise<{ city: strin
             city: data.places[0]['place name'],
             state: data.places[0]['state abbreviation'],
             latitude: parseFloat(data.places[0].latitude),
-            longitude: parseFloat(data.places[0].longitude)
+            longitude: parseFloat(data.places[0].longitude),
         };
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Failed to lookup zip code';
