@@ -192,3 +192,29 @@
         opacity: 1;
     }
 }
+
+.skipLink {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #1a5fa0;
+    color: var(--color-white);
+    padding: 8px;
+    z-index: 1000;
+    transition: top 0.2s ease;
+}
+
+.skipLink:focus {
+    top: 0;
+    outline: 2px solid var(--btn-primary-color);
+    outline-offset: 2px;
+}
+
+/* Improve focus visibility for all interactive elements */
+.navLink:focus-visible,
+.unitToggle:focus-visible,
+.themeToggle:focus-visible,
+.locationToggle:focus-visible {
+    outline: 2px solid var(--btn-primary-color);
+    outline-offset: 2px;
+}

@@ -43,7 +43,10 @@ export default function Header() {
 
     return (
         <>
-            <header className={styles.header}>
+            <a href="#main-content" className={styles.skipLink}>
+                Skip to main content
+            </a>
+            <header className={styles.header} role="banner">
                 <div className={styles.titleRow}>
                     <h1 className={styles.title}>{title}</h1>
                     <div
@@ -55,16 +58,26 @@ export default function Header() {
                             justifyContent: 'flex-end',
                         }}
                     >
-                        <nav className={styles.navigation}>
-                            <Link href="/" className={styles.navLink}>
+                        <nav className={styles.navigation} role="navigation" aria-label="Main">
+                            <Link
+                                href="/"
+                                className={styles.navLink}
+                                aria-current={!isDetailsPage ? 'page' : undefined}
+                            >
                                 Dashboard
                             </Link>
-                            <span className={styles.navSeparator}>|</span>
-                            <Link href="/details/" className={styles.navLink}>
+                            <span className={styles.navSeparator} aria-hidden="true">
+                                |
+                            </span>
+                            <Link
+                                href="/details/"
+                                className={styles.navLink}
+                                aria-current={isDetailsPage ? 'page' : undefined}
+                            >
                                 Details
                             </Link>
                         </nav>
-                        <div className={styles.buttonGroup}>
+                        <div className={styles.buttonGroup} role="group" aria-label="Page settings">
                             {isDetailsPage && (
                                 <button
                                     type="button"
@@ -73,16 +86,17 @@ export default function Header() {
                                     aria-pressed={unitSystem === 'metric'}
                                     aria-label={`Switch to ${unitSystem === 'imperial' ? 'metric' : 'imperial'} units`}
                                 >
-                                    {unitSystem === 'imperial' ? '°F' : '°C'}
+                                    <span aria-hidden="true">{unitSystem === 'imperial' ? '°F' : '°C'}</span>
                                 </button>
                             )}
                             <button
                                 type="button"
                                 className={styles.themeToggle}
                                 onClick={toggleTheme}
+                                aria-pressed={theme === 'dark'}
                                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                             >
-                                {theme === 'light' ? '🌙' : '☀️'}
+                                <span aria-hidden="true">{theme === 'light' ? '🌙' : '☀️'}</span>
                             </button>
                             <button
                                 type="button"
@@ -90,14 +104,20 @@ export default function Header() {
                                 onClick={() => setShowLocationForm(!showLocationForm)}
                                 aria-expanded={showLocationForm}
                                 aria-controls="location-switcher-form"
+                                aria-haspopup="dialog"
                             >
-                                {'Location'}
+                                Location
                             </button>
                         </div>
                     </div>
                 </div>
                 {showLocationForm && (
-                    <div className={styles.locationSwitcherWrapper}>
+                    <div
+                        className={styles.locationSwitcherWrapper}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Change location"
+                    >
                         <div
                             className={styles.overlay}
                             onClick={() => setShowLocationForm(false)}
