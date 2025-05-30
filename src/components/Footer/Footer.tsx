@@ -17,9 +17,13 @@ export default function Footer() {
                     Refresh
                 </button>
             </section>
-            Weather data provided by{' '}
+            Weather data by{' '}
             <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="app-footer__link">
                 Open-Meteo
+            </a>{' '}
+            and location data by{' '}
+            <a href="https://zippopotam.us/" target="_blank" rel="noopener noreferrer" className="app-footer__link">
+                Zippopotam.us
             </a>
             . Built by{' '}
             <a href="https://www.twistermc.com" target="_blank" rel="noopener noreferrer" className="app-footer__link">
