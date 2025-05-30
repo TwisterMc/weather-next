@@ -9,6 +9,8 @@ export default function WeatherDetails() {
     const { theme } = useTheme();
     const { unitSystem } = useUnit();
 
+    console.log(weather);
+
     const getTemperatureColor = (temp: number | null, isCelsius: boolean = false): string => {
         if (temp === null) return 'var(--color-primary)';
 
@@ -252,7 +254,6 @@ export default function WeatherDetails() {
                             {weather.iconUrl}
                         </span>
                         <span>{weather.condition || '--'}</span>
-                        {weather.weatherCode && <span className="sr-only">Weather code: {weather.weatherCode}</span>}
                     </div>
                 </section>
 
