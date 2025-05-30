@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './WeatherCard.module.css';
 import { useWeather } from '@/context/WeatherContext';
 
-interface WeatherCardProps {
+export interface WeatherCardProps {
     title: string;
     unitSymbol: '°F' | '°C';
     windLabel: string;

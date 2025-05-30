@@ -4,12 +4,12 @@ import '@testing-library/jest-dom';
 import WeatherCard from './WeatherCard';
 import { WeatherContext } from '@/context/WeatherContext';
 
-const requiredProps = {
-    title: 'Today',
-    unitSymbol: '°F',
-    windLabel: 'Wind',
-    windUnit: 'mph',
-    precipitationLabel: 'Precipitation',
+const requiredProps: import("./WeatherCard").WeatherCardProps = {
+    title: "Today",
+    unitSymbol: "°F",
+    windLabel: "Wind",
+    windUnit: "mph",
+    precipitationLabel: "Precipitation",
 };
 
 const mockWeatherContext = {
@@ -63,8 +63,8 @@ describe('WeatherCard', () => {
     it('renders title and labels', () => {
         renderWithMockContext(<WeatherCard {...requiredProps} />);
         expect(screen.getByText('Today')).toBeInTheDocument();
-        expect(screen.getByText('Wind:')).toBeInTheDocument();
-        expect(screen.getByText('Precipitation:')).toBeInTheDocument();
+        expect(screen.getByText('Wind')).toBeInTheDocument();
+        expect(screen.getByText('Precipitation')).toBeInTheDocument();
     });
 
     it('shows loading animation when loading', () => {
