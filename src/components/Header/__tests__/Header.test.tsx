@@ -71,7 +71,7 @@ describe('Header', () => {
         render(<Header />);
         const dashboardLink = screen.getByRole('link', { name: 'Dashboard' });
         const detailsLink = screen.getByRole('link', { name: 'Details' });
-        
+
         expect(dashboardLink).toHaveAttribute('aria-current', 'page');
         expect(detailsLink).not.toHaveAttribute('aria-current');
     });

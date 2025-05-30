@@ -132,7 +132,7 @@ describe('LocationSwitcher', () => {
         const mockGeolocation = {
             getCurrentPosition: jest.fn().mockImplementationOnce((_success, error) => error()),
         };
-        Object.defineProperty(global.navigator, "geolocation", {
+        Object.defineProperty(global.navigator, 'geolocation', {
             value: mockGeolocation,
             configurable: true,
         });

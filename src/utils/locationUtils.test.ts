@@ -35,16 +35,16 @@ describe('getLocationFromZip', () => {
             places: [
                 {
                     'place name': 'Minneapolis',
-                    'longitude': '-93.2768',
-                    'latitude': '44.9795',
-                    'state abbreviation': 'MN'
-                }
-            ]
+                    longitude: '-93.2768',
+                    latitude: '44.9795',
+                    'state abbreviation': 'MN',
+                },
+            ],
         };
 
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve(mockResponse)
+            json: () => Promise.resolve(mockResponse),
         });
 
         const result = await getLocationFromZip('55402');
@@ -80,7 +80,7 @@ describe('getLocationFromZip', () => {
     it('should handle invalid JSON response', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.reject(new Error('Invalid JSON'))
+            json: () => Promise.reject(new Error('Invalid JSON')),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('Invalid response format');
@@ -89,7 +89,7 @@ describe('getLocationFromZip', () => {
     it('should handle empty response data', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve(null)
+            json: () => Promise.resolve(null),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('Invalid response format');
@@ -98,7 +98,7 @@ describe('getLocationFromZip', () => {
     it('should handle invalid response format', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve({ "post code": "55402" })
+            json: () => Promise.resolve({ 'post code': '55402' }),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('Invalid response format');
@@ -107,7 +107,7 @@ describe('getLocationFromZip', () => {
     it('should handle empty places array', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve({ places: [] })
+            json: () => Promise.resolve({ places: [] }),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('No location found for this zip code');
@@ -116,13 +116,16 @@ describe('getLocationFromZip', () => {
     it('should handle missing required fields', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve({
-                places: [{
-                    "place name": "Test City",
-                    "state abbreviation": "MN"
-                    // missing latitude/longitude fields
-                }]
-            })
+            json: () =>
+                Promise.resolve({
+                    places: [
+                        {
+                            'place name': 'Test City',
+                            'state abbreviation': 'MN',
+                            // missing latitude/longitude fields
+                        },
+                    ],
+                }),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('Incomplete location data');
@@ -131,14 +134,17 @@ describe('getLocationFromZip', () => {
     it('should handle invalid coordinates', async () => {
         mockFetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve({
-                places: [{
-                    "place name": "Test City",
-                    "state abbreviation": "TC",
-                    "latitude": "invalid",
-                    "longitude": "invalid"
-                }]
-            })
+            json: () =>
+                Promise.resolve({
+                    places: [
+                        {
+                            'place name': 'Test City',
+                            'state abbreviation': 'TC',
+                            latitude: 'invalid',
+                            longitude: 'invalid',
+                        },
+                    ],
+                }),
         });
 
         await expect(getLocationFromZip('55402')).rejects.toThrow('Invalid coordinates in location data');

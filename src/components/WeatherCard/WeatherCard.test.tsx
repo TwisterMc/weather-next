@@ -4,12 +4,12 @@ import '@testing-library/jest-dom';
 import WeatherCard from './WeatherCard';
 import { WeatherContext } from '@/context/WeatherContext';
 
-const requiredProps: import("./WeatherCard").WeatherCardProps = {
-    title: "Today",
-    unitSymbol: "°F",
-    windLabel: "Wind",
-    windUnit: "mph",
-    precipitationLabel: "Precipitation",
+const requiredProps: import('./WeatherCard').WeatherCardProps = {
+    title: 'Today',
+    unitSymbol: '°F',
+    windLabel: 'Wind',
+    windUnit: 'mph',
+    precipitationLabel: 'Precipitation',
 };
 
 const mockWeatherContext = {
